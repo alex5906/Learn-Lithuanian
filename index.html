@@ -117,12 +117,22 @@
                     <h1 class="font-display font-bold text-lg sm:text-xl tracking-tight text-white flex items-center gap-2">
                         Gintaras <span class="text-xs font-semibold uppercase px-2 py-0.5 rounded-full bg-ltGreen/40 text-emerald-300 border border-emerald-500/30">Lietuvių Kalba</span>
                     </h1>
-                    <p class="text-xs text-emerald-200/60 hidden sm:block">Interactive Lithuanian Vocabulary & Sentence Builder</p>
+                    <p id="uiBrandSubtitle" class="text-xs text-emerald-200/60 hidden sm:block">Interactive Lithuanian Vocabulary & Sentence Builder</p>
                 </div>
             </div>
 
-            <!-- Stats & Dictionary Trigger -->
-            <div class="flex items-center gap-2 sm:gap-3">
+            <!-- Stats, Language Toggle & Dictionary Trigger -->
+            <div class="flex items-center gap-2 sm:gap-2.5">
+                <!-- Global UI Language Toggle (EN | LT) -->
+                <div class="flex items-center bg-forestCard border border-forestBorder rounded-xl p-0.5 text-xs font-bold shadow-inner" title="Switch UI Language / Keisti sąsajos kalbą">
+                    <button type="button" id="langBtn-en" onclick="setUILanguage('en')" class="px-2.5 py-1 rounded-lg transition bg-ltYellow text-forestDark font-extrabold">
+                        🇬🇧 EN
+                    </button>
+                    <button type="button" id="langBtn-lt" onclick="setUILanguage('lt')" class="px-2.5 py-1 rounded-lg transition text-emerald-200/75 hover:text-white">
+                        🇱🇹 LT
+                    </button>
+                </div>
+
                 <!-- Total XP pill -->
                 <div class="flex items-center gap-1.5 bg-forestCard border border-forestBorder px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-amber-300" title="Total Experience Points">
                     <svg class="w-4 h-4 text-ltYellow" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
@@ -138,7 +148,7 @@
                 <!-- Dictionary Modal Button -->
                 <button onclick="openDictionaryModal()" class="flex items-center gap-2 bg-emerald-900/50 hover:bg-emerald-800/70 text-emerald-100 border border-emerald-600/40 px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition">
                     <svg class="w-4 h-4 text-ltYellow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-                    <span>Word Bank</span>
+                    <span id="uiWordBankBtnLabel">Word Bank</span>
                     <span id="navWordCountBadge" class="bg-ltYellow text-forestDark px-1.5 py-0.2 rounded-md text-xs font-extrabold">520+</span>
                 </button>
             </div>
@@ -156,22 +166,22 @@
                 <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div class="space-y-2 max-w-xl">
                         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-ltYellow/15 border border-ltYellow/30 text-ltYellow text-xs font-bold tracking-wide uppercase">
-                            <span>🇱🇹</span> Master Lithuanian Step-by-Step
+                            <span>🇱🇹</span> <span id="uiHeroPill">Master Lithuanian Step-by-Step</span>
                         </div>
-                        <h2 class="font-display text-2xl sm:text-4xl font-extrabold text-white leading-tight">
+                        <h2 id="uiHeroTitle" class="font-display text-2xl sm:text-4xl font-extrabold text-white leading-tight">
                             From Single Words to Full 5-Word Sentences
                         </h2>
-                        <p class="text-emerald-100/75 text-sm sm:text-base leading-relaxed">
+                        <p id="uiHeroDesc" class="text-emerald-100/75 text-sm sm:text-base leading-relaxed">
                             Choose how many words you want in each challenge. Start with <strong class="text-white">1-word</strong> core vocabulary and scale up to <strong class="text-white">5-word</strong> everyday Lithuanian sentences with native audio pronunciation.
                         </p>
                     </div>
 
                     <!-- Database Counter Card -->
                     <div class="bg-forestDark/80 border border-forestBorder rounded-2xl p-4 sm:p-5 text-center shrink-0 flex flex-col items-center justify-center min-w-[180px]">
-                        <span class="text-xs uppercase tracking-wider text-emerald-300/70 font-semibold">Vocabulary Bank</span>
+                        <span id="uiVocabBankLabel" class="text-xs uppercase tracking-wider text-emerald-300/70 font-semibold">Vocabulary Bank</span>
                         <div id="totalVocabCounter" class="font-display text-3xl sm:text-4xl font-extrabold text-ltYellow my-1">540</div>
-                        <span class="text-xs text-emerald-200/70">Unique Common Words</span>
-                        <button onclick="openDictionaryModal()" class="mt-3 text-xs font-semibold text-amber-300 hover:text-amber-200 underline flex items-center gap-1">
+                        <span id="uiUniqueWordsLabel" class="text-xs text-emerald-200/70">Unique Common Words</span>
+                        <button id="uiBrowseWordsBtn" onclick="openDictionaryModal()" class="mt-3 text-xs font-semibold text-amber-300 hover:text-amber-200 underline flex items-center gap-1">
                             Browse all words &rarr;
                         </button>
                     </div>
@@ -186,7 +196,7 @@
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                         <label class="font-display font-bold text-lg text-white flex items-center gap-2">
                             <span class="w-6 h-6 rounded-full bg-ltYellow text-forestDark text-xs font-extrabold flex items-center justify-center">1</span>
-                            Words per Question (Difficulty & Length)
+                            <span id="uiStep1Title">Words per Question (Difficulty & Length)</span>
                         </label>
                         <span id="wordCountDescBadge" class="text-xs font-semibold text-amber-300 bg-amber-500/10 border border-amber-500/20 px-3 py-1 rounded-full">
                             1 Word • Individual Core Vocabulary
@@ -196,32 +206,32 @@
                     <!-- 1 to 5 Grid -->
                     <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-1">
                         <button type="button" onclick="selectWordLength(1)" id="lenBtn-1" class="word-len-btn word-pill-active rounded-2xl p-3.5 text-left sm:text-center border border-forestBorder transition flex sm:flex-col items-center justify-between sm:justify-center gap-2">
-                            <div class="font-display font-extrabold text-xl sm:text-2xl">1 Word</div>
-                            <div class="text-xs opacity-85 font-medium">Basic Words</div>
+                            <div id="lenTitle-1" class="font-display font-extrabold text-xl sm:text-2xl">1 Word</div>
+                            <div id="lenSub-1" class="text-xs opacity-85 font-medium">Basic Words</div>
                             <div class="text-[11px] opacity-75 italic hidden sm:block mt-1">"namas"</div>
                         </button>
 
                         <button type="button" onclick="selectWordLength(2)" id="lenBtn-2" class="word-len-btn bg-forestDark/70 hover:bg-forestDark text-emerald-100 rounded-2xl p-3.5 text-left sm:text-center border border-forestBorder transition flex sm:flex-col items-center justify-between sm:justify-center gap-2">
-                            <div class="font-display font-extrabold text-xl sm:text-2xl">2 Words</div>
-                            <div class="text-xs opacity-85 font-medium">Word Pairs</div>
+                            <div id="lenTitle-2" class="font-display font-extrabold text-xl sm:text-2xl">2 Words</div>
+                            <div id="lenSub-2" class="text-xs opacity-85 font-medium">Word Pairs</div>
                             <div class="text-[11px] opacity-75 italic hidden sm:block mt-1">"geras draugas"</div>
                         </button>
 
                         <button type="button" onclick="selectWordLength(3)" id="lenBtn-3" class="word-len-btn bg-forestDark/70 hover:bg-forestDark text-emerald-100 rounded-2xl p-3.5 text-left sm:text-center border border-forestBorder transition flex sm:flex-col items-center justify-between sm:justify-center gap-2">
-                            <div class="font-display font-extrabold text-xl sm:text-2xl">3 Words</div>
-                            <div class="text-xs opacity-85 font-medium">Short Phrases</div>
+                            <div id="lenTitle-3" class="font-display font-extrabold text-xl sm:text-2xl">3 Words</div>
+                            <div id="lenSub-3" class="text-xs opacity-85 font-medium">Short Phrases</div>
                             <div class="text-[11px] opacity-75 italic hidden sm:block mt-1">"aš geriu kavą"</div>
                         </button>
 
                         <button type="button" onclick="selectWordLength(4)" id="lenBtn-4" class="word-len-btn bg-forestDark/70 hover:bg-forestDark text-emerald-100 rounded-2xl p-3.5 text-left sm:text-center border border-forestBorder transition flex sm:flex-col items-center justify-between sm:justify-center gap-2">
-                            <div class="font-display font-extrabold text-xl sm:text-2xl">4 Words</div>
-                            <div class="text-xs opacity-85 font-medium">Mini Sentences</div>
+                            <div id="lenTitle-4" class="font-display font-extrabold text-xl sm:text-2xl">4 Words</div>
+                            <div id="lenSub-4" class="text-xs opacity-85 font-medium">Mini Sentences</div>
                             <div class="text-[11px] opacity-75 italic hidden sm:block mt-1">"mano brolis skaito knygą"</div>
                         </button>
 
                         <button type="button" onclick="selectWordLength(5)" id="lenBtn-5" class="word-len-btn bg-forestDark/70 hover:bg-forestDark text-emerald-100 rounded-2xl p-3.5 text-left sm:text-center border border-forestBorder transition flex sm:flex-col items-center justify-between sm:justify-center gap-2">
-                            <div class="font-display font-extrabold text-xl sm:text-2xl">5 Words</div>
-                            <div class="text-xs opacity-85 font-medium">Full Sentences</div>
+                            <div id="lenTitle-5" class="font-display font-extrabold text-xl sm:text-2xl">5 Words</div>
+                            <div id="lenSub-5" class="text-xs opacity-85 font-medium">Full Sentences</div>
                             <div class="text-[11px] opacity-75 italic hidden sm:block mt-1">"šiandien yra labai graži diena"</div>
                         </button>
                     </div>
@@ -229,13 +239,13 @@
                     <!-- Live Example Preview Box -->
                     <div class="bg-forestDark/90 border border-forestBorder/90 rounded-2xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs sm:text-sm">
                         <div class="flex items-center gap-2.5">
-                            <span class="px-2 py-0.5 rounded bg-emerald-900/80 text-emerald-300 font-semibold text-xs">Preview</span>
+                            <span id="uiPreviewBadge" class="px-2 py-0.5 rounded bg-emerald-900/80 text-emerald-300 font-semibold text-xs">Preview</span>
                             <span id="previewExampleLT" class="font-bold text-white">namas</span>
                             <span class="text-emerald-400">&rarr;</span>
                             <span id="previewExampleEN" class="text-amber-300 font-medium">house</span>
                         </div>
                         <button type="button" onclick="speakPreview()" class="self-start sm:self-auto text-xs text-emerald-300 hover:text-ltYellow flex items-center gap-1 font-medium">
-                            🔊 Test Lithuanian Audio
+                            🔊 <span id="uiTestAudioBtn">Test Lithuanian Audio</span>
                         </button>
                     </div>
                 </div>
@@ -245,7 +255,7 @@
                     <div class="flex items-center justify-between">
                         <label class="font-display font-bold text-base sm:text-lg text-white flex items-center gap-2">
                             <span class="w-6 h-6 rounded-full bg-ltYellow text-forestDark text-xs font-extrabold flex items-center justify-center">2</span>
-                            Vocabulary Topic <span id="catModeHint" class="text-xs font-normal text-emerald-300/70">(Filter for 1-Word mode)</span>
+                            <span id="uiStep2Title">Vocabulary Topic</span> <span id="catModeHint" class="text-xs font-normal text-emerald-300/70">(Filter for 1-Word mode)</span>
                         </label>
                     </div>
                     <div id="categoryPillsContainer" class="flex flex-wrap gap-2">
@@ -259,7 +269,7 @@
                     <div class="space-y-2.5">
                         <label class="font-display font-bold text-base text-white flex items-center gap-2">
                             <span class="w-6 h-6 rounded-full bg-ltYellow text-forestDark text-xs font-extrabold flex items-center justify-center">3</span>
-                            Translation Direction
+                            <span id="uiStep3Title">Translation Direction</span>
                         </label>
                         <div class="grid grid-cols-3 gap-2">
                             <button type="button" onclick="selectDirection('lt-en')" id="dirBtn-lt-en" class="dir-btn bg-emerald-800/60 border-2 border-ltYellow text-white rounded-xl py-2.5 px-3 text-xs sm:text-sm font-semibold transition">
@@ -269,7 +279,7 @@
                                 🇬🇧 EN &rarr; 🇱🇹 LT
                             </button>
                             <button type="button" onclick="selectDirection('mixed')" id="dirBtn-mixed" class="dir-btn bg-forestDark/70 border border-forestBorder text-emerald-200/80 hover:text-white rounded-xl py-2.5 px-3 text-xs sm:text-sm font-semibold transition">
-                                🔀 Mixed
+                                🔀 <span id="uiDirMixed">Mixed</span>
                             </button>
                         </div>
                     </div>
@@ -278,7 +288,7 @@
                     <div class="space-y-2.5">
                         <label class="font-display font-bold text-base text-white flex items-center gap-2">
                             <span class="w-6 h-6 rounded-full bg-ltYellow text-forestDark text-xs font-extrabold flex items-center justify-center">4</span>
-                            Round Length
+                            <span id="uiStep4Title">Round Length</span>
                         </label>
                         <div class="grid grid-cols-3 gap-2">
                             <button type="button" onclick="selectRoundLength(10)" id="roundBtn-10" class="round-btn bg-forestDark/70 border border-forestBorder text-emerald-200/80 hover:text-white rounded-xl py-2.5 px-3 text-xs sm:text-sm font-semibold transition">
@@ -297,7 +307,7 @@
                 <!-- Start Button -->
                 <div class="pt-2">
                     <button type="button" onclick="startGame()" class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-ltYellow via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-forestDark font-display font-extrabold text-lg sm:text-xl shadow-xl shadow-amber-500/20 hover:shadow-amber-500/30 transform hover:-translate-y-0.5 transition flex items-center justify-center gap-3">
-                        <span>Pradėti Žaidimą • Start Learning</span>
+                        <span id="uiStartGameBtnText">Pradėti Žaidimą • Start Learning</span>
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
                     </button>
                 </div>
@@ -310,7 +320,7 @@
             <div class="flex items-center justify-between gap-4 bg-forestCard border border-forestBorder rounded-2xl p-4">
                 <button onclick="quitToMenu()" class="text-xs sm:text-sm text-emerald-300/80 hover:text-white flex items-center gap-1.5 font-medium px-2.5 py-1.5 rounded-lg hover:bg-forestDark transition">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                    <span>Menu</span>
+                    <span id="uiMenuBtnLabel">Menu</span>
                 </button>
 
                 <!-- Progress Bar -->
@@ -327,12 +337,12 @@
                 <!-- Live Score & Streak -->
                 <div class="flex items-center gap-3">
                     <div class="text-right">
-                        <div class="text-[11px] uppercase text-emerald-300/60 font-semibold">Streak</div>
+                        <div id="uiLiveStreakLabel" class="text-[11px] uppercase text-emerald-300/60 font-semibold">Streak</div>
                         <div id="liveStreak" class="font-display font-bold text-sm sm:text-base text-amber-400">🔥 0</div>
                     </div>
                     <div class="h-7 w-px bg-forestBorder"></div>
                     <div class="text-right">
-                        <div class="text-[11px] uppercase text-emerald-300/60 font-semibold">Score</div>
+                        <div id="uiLiveScoreLabel" class="text-[11px] uppercase text-emerald-300/60 font-semibold">Score</div>
                         <div id="liveScore" class="font-display font-bold text-sm sm:text-base text-white">0</div>
                     </div>
                 </div>
@@ -378,14 +388,14 @@
                         </div>
                     </div>
                     <button id="nextQuestionBtn" onclick="nextQuestion()" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-ltYellow hover:bg-amber-400 text-forestDark font-display font-extrabold text-sm sm:text-base shadow-lg transition flex items-center justify-center gap-2">
-                        <span>Next Question</span>
+                        <span id="uiNextQuestionBtnText">Next Question</span>
                         <span class="text-xs opacity-75 font-sans">(Enter)</span>
                     </button>
                 </div>
             </div>
 
             <!-- Keyboard shortcut tip -->
-            <div class="text-center text-xs text-emerald-300/50">
+            <div id="uiKeyboardTip" class="text-center text-xs text-emerald-300/50">
                 Tip: Press keys <kbd class="px-1.5 py-0.5 bg-forestCard border border-forestBorder rounded text-emerald-200">1</kbd> - <kbd class="px-1.5 py-0.5 bg-forestCard border border-forestBorder rounded text-emerald-200">4</kbd> to select an answer, <kbd class="px-1.5 py-0.5 bg-forestCard border border-forestBorder rounded text-emerald-200">R</kbd> for audio, and <kbd class="px-1.5 py-0.5 bg-forestCard border border-forestBorder rounded text-emerald-200">Enter</kbd> to continue.
             </div>
         </section>
@@ -397,42 +407,42 @@
                     🏆
                 </div>
                 <div class="space-y-2">
-                    <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-white">Šaunuolis! Round Complete!</h2>
+                    <h2 id="uiSummaryTitle" class="font-display font-extrabold text-3xl sm:text-4xl text-white">Šaunuolis! Round Complete!</h2>
                     <p id="summarySubtext" class="text-emerald-200/80 text-sm sm:text-base">Great job practicing Lithuanian!</p>
                 </div>
 
                 <!-- Stats Grid -->
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5 max-w-2xl mx-auto pt-2">
                     <div class="bg-forestDark/80 border border-forestBorder rounded-2xl p-4">
-                        <div class="text-xs text-emerald-300/70 uppercase font-semibold">Accuracy</div>
+                        <div id="uiSumAccuracyLabel" class="text-xs text-emerald-300/70 uppercase font-semibold">Accuracy</div>
                         <div id="sumAccuracy" class="font-display font-extrabold text-2xl sm:text-3xl text-ltYellow mt-1">95%</div>
                     </div>
                     <div class="bg-forestDark/80 border border-forestBorder rounded-2xl p-4">
-                        <div class="text-xs text-emerald-300/70 uppercase font-semibold">Correct</div>
+                        <div id="uiSumCorrectLabel" class="text-xs text-emerald-300/70 uppercase font-semibold">Correct</div>
                         <div id="sumCorrect" class="font-display font-extrabold text-2xl sm:text-3xl text-emerald-400 mt-1">19/20</div>
                     </div>
                     <div class="bg-forestDark/80 border border-forestBorder rounded-2xl p-4">
-                        <div class="text-xs text-emerald-300/70 uppercase font-semibold">Best Streak</div>
+                        <div id="uiSumStreakLabel" class="text-xs text-emerald-300/70 uppercase font-semibold">Best Streak</div>
                         <div id="sumStreak" class="font-display font-extrabold text-2xl sm:text-3xl text-amber-400 mt-1">🔥 12</div>
                     </div>
                     <div class="bg-forestDark/80 border border-forestBorder rounded-2xl p-4">
-                        <div class="text-xs text-emerald-300/70 uppercase font-semibold">XP Earned</div>
+                        <div id="uiSumXPLabel" class="text-xs text-emerald-300/70 uppercase font-semibold">XP Earned</div>
                         <div id="sumXP" class="font-display font-extrabold text-2xl sm:text-3xl text-white mt-1">+240</div>
                     </div>
                 </div>
 
                 <!-- Review Missed Items -->
                 <div id="missedWordsSection" class="hidden text-left max-w-2xl mx-auto bg-forestDark/70 border border-forestBorder rounded-2xl p-5 space-y-3">
-                    <h3 class="font-display font-bold text-sm uppercase tracking-wider text-rose-300">Items to Review:</h3>
+                    <h3 id="uiMissedWordsTitle" class="font-display font-bold text-sm uppercase tracking-wider text-rose-300">Items to Review:</h3>
                     <div id="missedWordsList" class="space-y-2 max-h-60 overflow-y-auto pr-2"></div>
                 </div>
 
                 <!-- Action Buttons -->
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
-                    <button onclick="startGame()" class="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-ltYellow hover:bg-amber-400 text-forestDark font-display font-extrabold text-base shadow-lg transition">
+                    <button id="uiPlayAgainBtn" onclick="startGame()" class="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-ltYellow hover:bg-amber-400 text-forestDark font-display font-extrabold text-base shadow-lg transition">
                         Play Again (Same Settings)
                     </button>
-                    <button onclick="showScreen('startScreen')" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-forestDark hover:bg-emerald-950 text-emerald-100 border border-forestBorder font-display font-bold text-base transition">
+                    <button id="uiChangeSettingsBtn" onclick="showScreen('startScreen')" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-forestDark hover:bg-emerald-950 text-emerald-100 border border-forestBorder font-display font-bold text-base transition">
                         Change Word Count / Settings
                     </button>
                 </div>
@@ -448,10 +458,10 @@
             <div class="p-5 sm:p-6 border-b border-forestBorder flex items-center justify-between gap-4 bg-forestDark/60">
                 <div>
                     <h2 class="font-display font-extrabold text-xl sm:text-2xl text-white flex items-center gap-2">
-                        <span>📚</span> Lithuanian Vocabulary Bank
+                        <span>📚</span> <span id="uiModalTitle">Lithuanian Vocabulary Bank</span>
                         <span id="modalTotalWordsCount" class="text-xs px-2.5 py-1 rounded-full bg-ltYellow text-forestDark font-extrabold">540 Words</span>
                     </h2>
-                    <p class="text-xs sm:text-sm text-emerald-200/70 mt-0.5">Search in Lithuanian or English, filter by category, or click any word to hear it pronounced.</p>
+                    <p id="uiModalSubtitle" class="text-xs sm:text-sm text-emerald-200/70 mt-0.5">Search in Lithuanian or English, filter by category, or click any word to hear it pronounced.</p>
                 </div>
                 <button onclick="closeDictionaryModal()" class="w-9 h-9 rounded-xl bg-forestCard border border-forestBorder text-emerald-200 hover:text-white flex items-center justify-center">
                     ✕
@@ -477,7 +487,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="py-4 text-center text-xs text-emerald-300/50 border-t border-forestBorder/40">
+    <footer id="uiFooterText" class="py-4 text-center text-xs text-emerald-300/50 border-t border-forestBorder/40">
         Gintaras Lithuanian Trainer • 500+ Core Words & Dynamic 1-to-5 Word Sentence Engine
     </footer>
 
@@ -921,6 +931,292 @@
         buildDynamicPhrases();
 
         /***********************************************************************
+         * 2B. GLOBAL UI INTERNATIONALIZATION (EN & LT)
+         ***********************************************************************/
+        let uiLang = localStorage.getItem("lt_ui_lang") || "en";
+
+        const UI_STRINGS = {
+            en: {
+                brandSubtitle: "Interactive Lithuanian Vocabulary & Sentence Builder",
+                wordBankBtn: "Word Bank",
+                wordsSuffix: "Words",
+                heroPill: "Master Lithuanian Step-by-Step",
+                heroTitle: "From Single Words to Full 5-Word Sentences",
+                heroDesc: 'Choose how many words you want in each challenge. Start with <strong class="text-white">1-word</strong> core vocabulary and scale up to <strong class="text-white">5-word</strong> everyday Lithuanian sentences with native audio pronunciation.',
+                vocabBankLabel: "Vocabulary Bank",
+                uniqueWordsLabel: "Unique Common Words",
+                browseWordsBtn: "Browse all words \u2192",
+                step1Title: "Words per Question (Difficulty & Length)",
+                lenTitles: { 1: "1 Word", 2: "2 Words", 3: "3 Words", 4: "4 Words", 5: "5 Words" },
+                lenSubs: { 1: "Basic Words", 2: "Word Pairs", 3: "Short Phrases", 4: "Mini Sentences", 5: "Full Sentences" },
+                lenBadges: {
+                    1: "1 Word \u2022 Individual Core Vocabulary",
+                    2: "2 Words \u2022 Adjective + Noun / Pronoun + Verb Pairs",
+                    3: "3 Words \u2022 Simple Phrases & Short Clauses",
+                    4: "4 Words \u2022 Everyday Mini Sentences",
+                    5: "5 Words \u2022 Complete 5-Word Sentences"
+                },
+                previewBadge: "Preview",
+                testAudioBtn: "Test Lithuanian Audio",
+                step2Title: "Vocabulary Topic",
+                catHint1Word: "(Filter for 1-Word mode)",
+                catHintMultiWord: (n) => `(All topics combined in ${n}-Word sentence mode)`,
+                allCategoriesPill: "\uD83C\uDF1F All Categories",
+                allCategoriesSelect: "All Categories",
+                step3Title: "Translation Direction",
+                dirMixed: "Mixed",
+                step4Title: "Round Length",
+                round10: "10 Questions",
+                round20: "20 Questions",
+                roundEndless: "\u221E Endless",
+                startGameBtn: "Start Learning \u2022 Prad\u0117ti \u017Daidim\u0105",
+                menuBtn: "Menu",
+                questionProgressEndless: (q) => `Question ${q} (Endless Mode)`,
+                questionProgressBounded: (q, tot) => `Question ${q} / ${tot}`,
+                activeModeBadge: (n) => `${n} ${n === 1 ? "Word" : "Words"} per Question`,
+                streakLabel: "Streak",
+                scoreLabel: "Score",
+                dirBadgeLTEN: "\uD83C\uDDF1\uD83C\uDDF9 Lithuanian \u2192 \uD83C\uDDEC\uD83C\uDDE7 English",
+                dirBadgeENLT: "\uD83C\uDDEC\uD83C\uDDE7 English \u2192 \uD83C\uDDF1\uD83C\uDDF9 Lithuanian",
+                hintSingleWord: "Select the matching translation below",
+                hintMultiWord: (n) => `${n}-word Lithuanian sentence challenge`,
+                feedbackCorrect: (xp) => `Puiku! Correct! (+${xp} XP)`,
+                feedbackWrong: "Neteisingai \u2022 Not quite!",
+                feedbackCorrectAnswerPrefix: "Correct answer:",
+                nextQuestionBtn: "Next Question",
+                keyboardTip: 'Tip: Press keys <kbd class="px-1.5 py-0.5 bg-forestCard border border-forestBorder rounded text-emerald-200">1</kbd> - <kbd class="px-1.5 py-0.5 bg-forestCard border border-forestBorder rounded text-emerald-200">4</kbd> to select an answer, <kbd class="px-1.5 py-0.5 bg-forestCard border border-forestBorder rounded text-emerald-200">R</kbd> for audio, and <kbd class="px-1.5 py-0.5 bg-forestCard border border-forestBorder rounded text-emerald-200">Enter</kbd> to continue.',
+                summaryTitle: "\u0160aunuolis! Round Complete!",
+                summarySubtext: "Great job practicing Lithuanian!",
+                sumAccuracyLabel: "Accuracy",
+                sumCorrectLabel: "Correct",
+                sumStreakLabel: "Best Streak",
+                sumXPLabel: "XP Earned",
+                missedWordsTitle: "Items to Review:",
+                playAgainBtn: "Play Again (Same Settings)",
+                changeSettingsBtn: "Change Word Count / Settings",
+                modalTitle: "Lithuanian Vocabulary Bank",
+                modalSubtitle: "Search in Lithuanian or English, filter by category, or click any word to hear it pronounced.",
+                dictSearchPlaceholder: "Search Lithuanian or English word (e.g. 'vanduo', 'water', 'draugas')...",
+                noWordsFound: (q) => `No words found matching "${q}".`,
+                footerText: "Gintaras Lithuanian Trainer \u2022 500+ Core Words & Dynamic 1-to-5 Word Sentence Engine"
+            },
+            lt: {
+                brandSubtitle: "Interaktyvus lietuvi\u0173 kalbos \u017Eodyno ir sakini\u0173 treniruoklis",
+                wordBankBtn: "\u017Dodynas",
+                wordsSuffix: "\u017Eod\u017Eiai",
+                heroPill: "Mokykis lietuvi\u0173 kalbos \u017Eingsnis po \u017Eingsnio",
+                heroTitle: "Nuo pavieni\u0173 \u017Eod\u017Ei\u0173 iki 5 \u017Eod\u017Ei\u0173 sakini\u0173",
+                heroDesc: 'Pasirinkite, kiek \u017Eod\u017Ei\u0173 norite matyti kiekviename klausime. Prad\u0117kite nuo <strong class="text-white">1 \u017Eod\u017Eio</strong> pagrindinio \u017Eodyno ir pereikite prie <strong class="text-white">5 \u017Eod\u017Ei\u0173</strong> kasdieni\u0173 lietuvi\u0161k\u0173 sakini\u0173 su garso tarimu.',
+                vocabBankLabel: "\u017Dodyno baz\u0117",
+                uniqueWordsLabel: "Da\u017Eniausi \u017Eod\u017Eiai",
+                browseWordsBtn: "Per\u017Ei\u016Br\u0117ti visus \u017Eod\u017Eius \u2192",
+                step1Title: "\u017Dod\u017Ei\u0173 skai\u010Dius klausime (Sunkumas ir ilgis)",
+                lenTitles: { 1: "1 \u017Eodis", 2: "2 \u017Eod\u017Eiai", 3: "3 \u017Eod\u017Eiai", 4: "4 \u017Eod\u017Eiai", 5: "5 \u017Eod\u017Eiai" },
+                lenSubs: { 1: "Pagrindiniai \u017Eod\u017Eiai", 2: "\u017Dod\u017Ei\u0173 junginiai", 3: "Trumpos fraz\u0117s", 4: "Trumpi sakiniai", 5: "Pilni sakiniai" },
+                lenBadges: {
+                    1: "1 \u017Eodis \u2022 Pagrindinis bazinis \u017Eodynas",
+                    2: "2 \u017Eod\u017Eiai \u2022 B\u016Bdvardis + daiktavardis / \u012Fvardis + veiksma\u017Eodis",
+                    3: "3 \u017Eod\u017Eiai \u2022 Trumpos fraz\u0117s ir junginiai",
+                    4: "4 \u017Eod\u017Eiai \u2022 Kasdieniai trumpi sakiniai",
+                    5: "5 \u017Eod\u017Eiai \u2022 Pilni penki\u0173 \u017Eod\u017Ei\u0173 sakiniai"
+                },
+                previewBadge: "Pavyzdys",
+                testAudioBtn: "I\u0161bandyti lietuvi\u0161k\u0105 tarim\u0105",
+                step2Title: "\u017Dodyno tema",
+                catHint1Word: "(Filtras 1 \u017Eod\u017Eio re\u017Eimui)",
+                catHintMultiWord: (n) => `(Visos temos sujungtos ${n} \u017Eod\u017Ei\u0173 sakini\u0173 re\u017Eime)`,
+                allCategoriesPill: "\uD83C\uDF1F Visos kategorijos",
+                allCategoriesSelect: "Visos kategorijos",
+                step3Title: "Vertimo kryptis",
+                dirMixed: "Mi\u0161riai",
+                step4Title: "Raundo trukm\u0117",
+                round10: "10 klausim\u0173",
+                round20: "20 klausim\u0173",
+                roundEndless: "\u221E Begalinis",
+                startGameBtn: "Prad\u0117ti \u017Eaidim\u0105",
+                menuBtn: "Meniu",
+                questionProgressEndless: (q) => `Klausimas ${q} (Begalinis re\u017Eimas)`,
+                questionProgressBounded: (q, tot) => `Klausimas ${q} / ${tot}`,
+                activeModeBadge: (n) => `${n} ${n === 1 ? "\u017Eodis" : "\u017Eod\u017Eiai"} klausime`,
+                streakLabel: "Serija",
+                scoreLabel: "Ta\u0161kai",
+                dirBadgeLTEN: "\uD83C\uDDF1\uD83C\uDDF9 Lietuvi\u0173 \u2192 \uD83C\uDDEC\uD83C\uDDE7 Angl\u0173",
+                dirBadgeENLT: "\uD83C\uDDEC\uD83C\uDDE7 Angl\u0173 \u2192 \uD83C\uDDF1\uD83C\uDDF9 Lietuvi\u0173",
+                hintSingleWord: "Pasirinkite teising\u0105 vertim\u0105 \u017Eemiau",
+                hintMultiWord: (n) => `${n} \u017Eod\u017Ei\u0173 lietuvi\u0161ko sakinio i\u0161\u0161\u016Bkis`,
+                feedbackCorrect: (xp) => `Puiku! Teisingai! (+${xp} XP)`,
+                feedbackWrong: "Neteisingai \u2022 Pabandykite dar kart\u0105!",
+                feedbackCorrectAnswerPrefix: "Teisingas atsakymas:",
+                nextQuestionBtn: "Kitas klausimas",
+                keyboardTip: 'Patarimas: Spauskite <kbd class="px-1.5 py-0.5 bg-forestCard border border-forestBorder rounded text-emerald-200">1</kbd> - <kbd class="px-1.5 py-0.5 bg-forestCard border border-forestBorder rounded text-emerald-200">4</kbd> atsakymui pasirinkti, <kbd class="px-1.5 py-0.5 bg-forestCard border border-forestBorder rounded text-emerald-200">R</kbd> garso perklausai ir <kbd class="px-1.5 py-0.5 bg-forestCard border border-forestBorder rounded text-emerald-200">Enter</kbd> t\u0119sti.',
+                summaryTitle: "\u0160aunuolis! Raundas baigtas!",
+                summarySubtext: "Puikiai padirb\u0117jote praktikuodami lietuvi\u0173 kalb\u0105!",
+                sumAccuracyLabel: "Tikslumas",
+                sumCorrectLabel: "Teisingi",
+                sumStreakLabel: "Geriausia serija",
+                sumXPLabel: "Pelnyta XP",
+                missedWordsTitle: "\u017Dod\u017Eiai pakartojimui:",
+                playAgainBtn: "\u017Daisti dar kart\u0105 (Tie patys nustatymai)",
+                changeSettingsBtn: "Keisti \u017Eod\u017Ei\u0173 skai\u010Di\u0173 / nustatymus",
+                modalTitle: "Lietuvi\u0173 kalbos \u017Eodyno baz\u0117",
+                modalSubtitle: "Ie\u0161kokite lietuvi\u0173 arba angl\u0173 kalba, filtruokite pagal tem\u0105 arba spustel\u0117kite \u017Eod\u012F, kad i\u0161girstum\u0117te tarim\u0105.",
+                dictSearchPlaceholder: "Ie\u0161koti lietuvi\u0161ko arba angli\u0161ko \u017Eod\u017Eio (pvz., 'vanduo', 'water', 'draugas')...",
+                noWordsFound: (q) => `Pagal u\u017Eklaus\u0105 \u201E${q}\u201C \u017Eod\u017Ei\u0173 nerasta.`,
+                footerText: "Gintaras \u2022 500+ pagrindini\u0173 \u017Eod\u017Ei\u0173 ir 1\u20135 \u017Eod\u017Ei\u0173 sakini\u0173 treniruoklis"
+            }
+        };
+
+        const CATEGORY_TRANSLATIONS_LT = {
+            "Pronouns & People": "\u012Evard\u017Eiai ir \u017Emon\u0117s",
+            "Common Verbs": "Da\u017Eniausi veiksma\u017Eod\u017Eiai",
+            "Adjectives & Colors": "B\u016Bdvard\u017Eiai ir spalvos",
+            "Food & Drink": "Maistas ir g\u0117rimai",
+            "Home, City & Places": "Namai, miestas ir vietos",
+            "Nature, Animals & Weather": "Gamta, gyv\u016Bnai ir orai",
+            "Time, Days & Numbers": "Laikas, dienos ir skai\u010Diai",
+            "Everyday Objects & Body": "Kasdieniai daiktai ir k\u016Bnas",
+            "Adverbs, Greetings & Connectors": "Prieveiksmiai, pasisveikinimai ir jungtukai",
+            "Abstract & Daily Life Concepts": "Abstrak\u010Dios ir kasdien\u0117s s\u0105vokos",
+            "Greetings": "Pasisveikinimai",
+            "People": "\u017Dmon\u0117s",
+            "Nature": "Gamta",
+            "Home & City": "Namai ir miestas",
+            "Objects": "Daiktai",
+            "Daily Life": "Kasdienyb\u0117",
+            "Verbs & Actions": "Veiksma\u017Eod\u017Eiai ir veiksmai",
+            "Time": "Laikas",
+            "Word Pairs": "\u017Dod\u017Ei\u0173 junginiai",
+            "Simple Clauses": "Trumpos fraz\u0117s",
+            "Short Sentences": "Trumpi sakiniai",
+            "Full Sentences": "Pilni sakiniai"
+        };
+
+        function tCat(cat) {
+            if (uiLang === "lt") {
+                return CATEGORY_TRANSLATIONS_LT[cat] || cat;
+            }
+            return cat;
+        }
+
+        function setUILanguage(lang) {
+            uiLang = lang === "lt" ? "lt" : "en";
+            localStorage.setItem("lt_ui_lang", uiLang);
+            applyUILanguage();
+        }
+
+        function applyUILanguage() {
+            const s = UI_STRINGS[uiLang];
+            const totalWords = MASTER_VOCAB.length;
+
+            // Update toggle button styles
+            const btnEn = document.getElementById("langBtn-en");
+            const btnLt = document.getElementById("langBtn-lt");
+            if (uiLang === "en") {
+                btnEn.className = "px-2.5 py-1 rounded-lg transition bg-ltYellow text-forestDark font-extrabold";
+                btnLt.className = "px-2.5 py-1 rounded-lg transition text-emerald-200/75 hover:text-white";
+            } else {
+                btnLt.className = "px-2.5 py-1 rounded-lg transition bg-ltYellow text-forestDark font-extrabold";
+                btnEn.className = "px-2.5 py-1 rounded-lg transition text-emerald-200/75 hover:text-white";
+            }
+
+            // Header & Badges
+            document.getElementById("uiBrandSubtitle").textContent = s.brandSubtitle;
+            document.getElementById("uiWordBankBtnLabel").textContent = s.wordBankBtn;
+            document.getElementById("navWordCountBadge").textContent = `${totalWords} ${s.wordsSuffix}`;
+            document.getElementById("modalTotalWordsCount").textContent = `${totalWords} ${s.wordsSuffix}`;
+
+            // Hero
+            document.getElementById("uiHeroPill").textContent = s.heroPill;
+            document.getElementById("uiHeroTitle").textContent = s.heroTitle;
+            document.getElementById("uiHeroDesc").innerHTML = s.heroDesc;
+            document.getElementById("uiVocabBankLabel").textContent = s.vocabBankLabel;
+            document.getElementById("uiUniqueWordsLabel").textContent = s.uniqueWordsLabel;
+            document.getElementById("uiBrowseWordsBtn").innerHTML = s.browseWordsBtn;
+
+            // Step 1: Word length
+            document.getElementById("uiStep1Title").textContent = s.step1Title;
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById(`lenTitle-${i}`).textContent = s.lenTitles[i];
+                document.getElementById(`lenSub-${i}`).textContent = s.lenSubs[i];
+            }
+            document.getElementById("wordCountDescBadge").textContent = s.lenBadges[config.wordLength];
+            document.getElementById("uiPreviewBadge").textContent = s.previewBadge;
+            document.getElementById("uiTestAudioBtn").textContent = s.testAudioBtn;
+
+            // Step 2: Topics
+            document.getElementById("uiStep2Title").textContent = s.step2Title;
+            document.getElementById("catModeHint").textContent =
+                config.wordLength === 1 ? s.catHint1Word : s.catHintMultiWord(config.wordLength);
+
+            // Step 3 & 4
+            document.getElementById("uiStep3Title").textContent = s.step3Title;
+            document.getElementById("uiDirMixed").textContent = s.dirMixed;
+            document.getElementById("uiStep4Title").textContent = s.step4Title;
+            document.getElementById("roundBtn-10").textContent = s.round10;
+            document.getElementById("roundBtn-20").textContent = s.round20;
+            document.getElementById("roundBtn-0").textContent = s.roundEndless;
+            document.getElementById("uiStartGameBtnText").textContent = s.startGameBtn;
+
+            // Gameplay screen static labels
+            document.getElementById("uiMenuBtnLabel").textContent = s.menuBtn;
+            document.getElementById("uiLiveStreakLabel").textContent = s.streakLabel;
+            document.getElementById("uiLiveScoreLabel").textContent = s.scoreLabel;
+            document.getElementById("uiNextQuestionBtnText").textContent = s.nextQuestionBtn;
+            document.getElementById("uiKeyboardTip").innerHTML = s.keyboardTip;
+
+            // Summary screen
+            document.getElementById("uiSummaryTitle").textContent = s.summaryTitle;
+            document.getElementById("summarySubtext").textContent = s.summarySubtext;
+            document.getElementById("uiSumAccuracyLabel").textContent = s.sumAccuracyLabel;
+            document.getElementById("uiSumCorrectLabel").textContent = s.sumCorrectLabel;
+            document.getElementById("uiSumStreakLabel").textContent = s.sumStreakLabel;
+            document.getElementById("uiSumXPLabel").textContent = s.sumXPLabel;
+            document.getElementById("uiMissedWordsTitle").textContent = s.missedWordsTitle;
+            document.getElementById("uiPlayAgainBtn").textContent = s.playAgainBtn;
+            document.getElementById("uiChangeSettingsBtn").textContent = s.changeSettingsBtn;
+
+            // Dictionary modal
+            document.getElementById("uiModalTitle").textContent = s.modalTitle;
+            document.getElementById("uiModalSubtitle").textContent = s.modalSubtitle;
+            document.getElementById("dictSearchInput").placeholder = s.dictSearchPlaceholder;
+            document.getElementById("uiFooterText").textContent = s.footerText;
+
+            // Refresh dynamic components
+            renderCategoryPills();
+            populateDictionaryCategories();
+            renderDictionaryList();
+
+            // If currently in an active game question, refresh its dynamic headers
+            if (gameState.currentQuestion && !document.getElementById("gameScreen").classList.contains("hidden")) {
+                refreshActiveQuestionLang();
+            }
+        }
+
+        function refreshActiveQuestionLang() {
+            const s = UI_STRINGS[uiLang];
+            const q = gameState.currentQuestion;
+            if (!q) return;
+
+            const qNum = gameState.currentIndex + 1;
+            if (config.roundLength === 0) {
+                document.getElementById("questionProgressText").textContent = s.questionProgressEndless(qNum);
+            } else {
+                document.getElementById("questionProgressText").textContent = s.questionProgressBounded(qNum, config.roundLength);
+            }
+            document.getElementById("activeModeBadge").textContent = s.activeModeBadge(config.wordLength);
+            document.getElementById("questionCategoryBadge").textContent = tCat(q.target.category);
+            document.getElementById("questionDirectionBadge").textContent =
+                q.direction === "lt-en" ? s.dirBadgeLTEN : s.dirBadgeENLT;
+
+            const wordCountHint = document.getElementById("wordBreakdownHint");
+            if (config.wordLength > 1) {
+                wordCountHint.textContent = s.hintMultiWord(config.wordLength);
+            } else {
+                wordCountHint.textContent = s.hintSingleWord;
+            }
+        }
+
+        /***********************************************************************
          * 3. GAME STATE & CONFIGURATION
          ***********************************************************************/
         let config = {
@@ -983,13 +1279,9 @@
             // Update counters with exact database size
             const totalWords = MASTER_VOCAB.length;
             document.getElementById("totalVocabCounter").textContent = totalWords;
-            document.getElementById("navWordCountBadge").textContent = `${totalWords} Words`;
-            document.getElementById("modalTotalWordsCount").textContent = `${totalWords} Words`;
 
             updateHeaderStats();
-            renderCategoryPills();
-            populateDictionaryCategories();
-            renderDictionaryList();
+            applyUILanguage();
         }
 
         function updateHeaderStats() {
@@ -1000,6 +1292,7 @@
         function renderCategoryPills() {
             const container = document.getElementById("categoryPillsContainer");
             const categories = ["ALL", ...Object.keys(RAW_VOCAB_BY_CATEGORY)];
+            const s = UI_STRINGS[uiLang];
             container.innerHTML = "";
 
             categories.forEach(cat => {
@@ -1013,7 +1306,8 @@
                         ? "bg-emerald-800/80 border-ltYellow text-white shadow-sm"
                         : "bg-forestDark/70 border-forestBorder text-emerald-200/75 hover:text-white"
                 }`;
-                btn.innerHTML = `${cat === "ALL" ? "🌟 All Categories" : cat} <span class="opacity-60 text-xs ml-1">(${count})</span>`;
+                const displayCat = cat === "ALL" ? s.allCategoriesPill : tCat(cat);
+                btn.innerHTML = `${displayCat} <span class="opacity-60 text-xs ml-1">(${count})</span>`;
                 container.appendChild(btn);
             });
         }
@@ -1029,7 +1323,8 @@
                 }
             }
             const meta = WORD_LENGTH_META[len];
-            document.getElementById("wordCountDescBadge").textContent = meta.badge;
+            const s = UI_STRINGS[uiLang];
+            document.getElementById("wordCountDescBadge").textContent = s.lenBadges[len];
             document.getElementById("previewExampleLT").textContent = meta.exampleLT;
             document.getElementById("previewExampleEN").textContent = meta.exampleEN;
 
@@ -1038,10 +1333,10 @@
             const catHint = document.getElementById("catModeHint");
             if (len === 1) {
                 catBlock.classList.remove("opacity-50", "pointer-events-none");
-                catHint.textContent = "(Filter for 1-Word mode)";
+                catHint.textContent = s.catHint1Word;
             } else {
                 catBlock.classList.add("opacity-50", "pointer-events-none");
-                catHint.textContent = `(All topics combined in ${len}-Word sentence mode)`;
+                catHint.textContent = s.catHintMultiWord(len);
             }
         }
 
@@ -1186,35 +1481,36 @@
             const q = gameState.questions[gameState.currentIndex];
             gameState.currentQuestion = q;
 
+            const s = UI_STRINGS[uiLang];
+
             // Update Top Bar
             const qNum = gameState.currentIndex + 1;
             if (config.roundLength === 0) {
-                document.getElementById("questionProgressText").textContent = `Question ${qNum} (Endless Mode)`;
+                document.getElementById("questionProgressText").textContent = s.questionProgressEndless(qNum);
                 document.getElementById("progressBarFill").style.width = "100%";
             } else {
-                document.getElementById("questionProgressText").textContent = `Question ${qNum} / ${config.roundLength}`;
+                document.getElementById("questionProgressText").textContent = s.questionProgressBounded(qNum, config.roundLength);
                 const pct = Math.max(5, Math.round(((qNum - 1) / config.roundLength) * 100));
                 document.getElementById("progressBarFill").style.width = `${pct}%`;
             }
 
-            document.getElementById("activeModeBadge").textContent =
-                `${config.wordLength} ${config.wordLength === 1 ? "Word" : "Words"} per Question`;
+            document.getElementById("activeModeBadge").textContent = s.activeModeBadge(config.wordLength);
             document.getElementById("liveStreak").textContent = `🔥 ${gameState.streak}`;
             document.getElementById("liveScore").textContent = gameState.score;
 
             // Update Badges & Prompt
-            document.getElementById("questionCategoryBadge").textContent = q.target.category;
+            document.getElementById("questionCategoryBadge").textContent = tCat(q.target.category);
             document.getElementById("questionDirectionBadge").textContent =
-                q.direction === "lt-en" ? "🇱🇹 Lithuanian → 🇬🇧 English" : "🇬🇧 English → 🇱🇹 Lithuanian";
+                q.direction === "lt-en" ? s.dirBadgeLTEN : s.dirBadgeENLT;
 
             document.getElementById("questionPromptText").textContent = q.prompt;
 
             // Show word count hint
             const wordCountHint = document.getElementById("wordBreakdownHint");
             if (config.wordLength > 1) {
-                wordCountHint.textContent = `${config.wordLength}-word Lithuanian sentence challenge`;
+                wordCountHint.textContent = s.hintMultiWord(config.wordLength);
             } else {
-                wordCountHint.textContent = "Select the matching translation below";
+                wordCountHint.textContent = s.hintSingleWord;
             }
 
             // Render 4 Option Buttons
@@ -1277,6 +1573,7 @@
             const feedbackIcon = document.getElementById("feedbackIcon");
             const feedbackTitle = document.getElementById("feedbackTitle");
             const feedbackSubtitle = document.getElementById("feedbackSubtitle");
+            const s = UI_STRINGS[uiLang];
 
             if (isCorrect) {
                 gameState.streak++;
@@ -1296,7 +1593,7 @@
 
                 feedbackIcon.className = "w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500 text-emerald-300 flex items-center justify-center text-xl shrink-0";
                 feedbackIcon.textContent = "✓";
-                feedbackTitle.textContent = `Puiku! Correct! (+${earnedXP} XP)`;
+                feedbackTitle.textContent = s.feedbackCorrect(earnedXP);
                 feedbackTitle.className = "font-display font-bold text-base text-emerald-300";
                 feedbackSubtitle.textContent = `${q.target.lt} = "${q.target.en}"`;
             } else {
@@ -1305,9 +1602,9 @@
 
                 feedbackIcon.className = "w-10 h-10 rounded-xl bg-rose-500/20 border border-rose-500 text-rose-300 flex items-center justify-center text-xl shrink-0";
                 feedbackIcon.textContent = "✕";
-                feedbackTitle.textContent = "Neteisingai • Not quite!";
+                feedbackTitle.textContent = s.feedbackWrong;
                 feedbackTitle.className = "font-display font-bold text-base text-rose-300";
-                feedbackSubtitle.textContent = `Correct answer: ${q.target.lt} — "${q.target.en}"`;
+                feedbackSubtitle.textContent = `${s.feedbackCorrectAnswerPrefix} ${q.target.lt} — "${q.target.en}"`;
             }
 
             // If question was EN -> LT, pronounce the Lithuanian answer on reveal
@@ -1417,12 +1714,16 @@
          ***********************************************************************/
         function populateDictionaryCategories() {
             const select = document.getElementById("dictCategorySelect");
+            const currentVal = select.value || "ALL";
+            const s = UI_STRINGS[uiLang];
+            select.innerHTML = `<option value="ALL">${s.allCategoriesSelect}</option>`;
             Object.keys(RAW_VOCAB_BY_CATEGORY).forEach(cat => {
                 const opt = document.createElement("option");
                 opt.value = cat;
-                opt.textContent = cat;
+                opt.textContent = tCat(cat);
                 select.appendChild(opt);
             });
+            select.value = currentVal;
         }
 
         function openDictionaryModal() {
@@ -1438,6 +1739,7 @@
             const query = (document.getElementById("dictSearchInput").value || "").trim().toLowerCase();
             const cat = document.getElementById("dictCategorySelect").value;
             const grid = document.getElementById("dictionaryGrid");
+            const s = UI_STRINGS[uiLang];
 
             const filtered = MASTER_VOCAB.filter(item => {
                 const matchesCat = cat === "ALL" || item.category === cat;
@@ -1450,7 +1752,7 @@
             grid.innerHTML = "";
 
             if (filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-10 text-emerald-300/60">No words found matching "${query}".</div>`;
+                grid.innerHTML = `<div class="col-span-full text-center py-10 text-emerald-300/60">${s.noWordsFound(query)}</div>`;
                 return;
             }
 
@@ -1462,7 +1764,7 @@
                     <div class="min-w-0">
                         <div class="font-bold text-white text-sm group-hover:text-ltYellow transition truncate">${item.lt}</div>
                         <div class="text-xs text-emerald-200/75 truncate">${item.en}</div>
-                        <div class="text-[10px] text-emerald-400/50 mt-0.5 truncate">${item.category}</div>
+                        <div class="text-[10px] text-emerald-400/50 mt-0.5 truncate">${tCat(item.category)}</div>
                     </div>
                     <span class="text-emerald-400/60 group-hover:text-ltYellow text-sm shrink-0" title="Listen">🔊</span>
                 `;

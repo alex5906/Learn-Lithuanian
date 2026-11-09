@@ -1,0 +1,1500 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gintaras — Learn Lithuanian (500+ Words & Sentences)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        ltYellow: '#FDB913',
+                        ltGreen: '#006A44',
+                        ltRed: '#C1272D',
+                        amberGold: '#F59E0B',
+                        forestDark: '#0B1914',
+                        forestCard: '#12261F',
+                        forestBorder: '#1E3D32'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: radial-gradient(circle at top right, #163026 0%, #09130f 60%, #060c09 100%);
+            min-height: 100vh;
+            color: #F3F4F6;
+            overflow-x: hidden;
+        }
+
+        /* Subtle Lithuanian tricolor top bar */
+        .tricolor-bar {
+            height: 5px;
+            background: linear-gradient(90deg, #FDB913 0%, #FDB913 33.3%, #006A44 33.3%, #006A44 66.6%, #C1272D 66.6%, #C1272D 100%);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B1914;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #254D3E;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FDB913;
+        }
+
+        /* Option Button Effects */
+        .option-btn {
+            transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 0 #183228;
+        }
+        .option-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #23493B;
+            border-color: #FDB913;
+        }
+        .option-btn:active:not(:disabled) {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #183228;
+        }
+        .option-correct {
+            background: rgba(16, 185, 129, 0.2) !important;
+            border-color: #10B981 !important;
+            color: #A7F3D0 !important;
+            box-shadow: 0 4px 0 #047857 !important;
+        }
+        .option-wrong {
+            background: rgba(239, 68, 68, 0.2) !important;
+            border-color: #EF4444 !important;
+            color: #FECACA !important;
+            box-shadow: 0 4px 0 #B91C1C !important;
+        }
+
+        .word-pill-active {
+            background: linear-gradient(135deg, #FDB913 0%, #D97706 100%);
+            color: #09130F;
+            box-shadow: 0 4px 15px rgba(253, 185, 19, 0.35);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.95); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pop {
+            animation: popIn 0.25s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen selection:bg-ltYellow selection:text-forestDark">
+
+    <!-- Lithuanian Tricolor Accent -->
+    <div class="tricolor-bar w-full sticky top-0 z-50"></div>
+
+    <!-- Top Navigation Bar -->
+    <header class="border-b border-forestBorder/80 bg-forestDark/80 backdrop-blur-md sticky top-[5px] z-40">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-3">
+            <!-- Brand -->
+            <div class="flex items-center gap-3 cursor-pointer" onclick="showScreen('startScreen')">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-ltYellow via-amber-500 to-amber-700 flex items-center justify-center shadow-lg shadow-amber-500/20 text-forestDark font-display font-extrabold text-xl">
+                    LT
+                </div>
+                <div>
+                    <h1 class="font-display font-bold text-lg sm:text-xl tracking-tight text-white flex items-center gap-2">
+                        Gintaras <span class="text-xs font-semibold uppercase px-2 py-0.5 rounded-full bg-ltGreen/40 text-emerald-300 border border-emerald-500/30">Lietuvių Kalba</span>
+                    </h1>
+                    <p class="text-xs text-emerald-200/60 hidden sm:block">Interactive Lithuanian Vocabulary & Sentence Builder</p>
+                </div>
+            </div>
+
+            <!-- Stats & Dictionary Trigger -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Total XP pill -->
+                <div class="flex items-center gap-1.5 bg-forestCard border border-forestBorder px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-amber-300" title="Total Experience Points">
+                    <svg class="w-4 h-4 text-ltYellow" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <span id="headerXP">0</span> <span class="text-emerald-200/60 font-normal">XP</span>
+                </div>
+
+                <!-- Best Streak pill -->
+                <div class="flex items-center gap-1.5 bg-forestCard border border-forestBorder px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-rose-400" title="Best Streak">
+                    <span>🔥</span>
+                    <span id="headerStreak">0</span>
+                </div>
+
+                <!-- Dictionary Modal Button -->
+                <button onclick="openDictionaryModal()" class="flex items-center gap-2 bg-emerald-900/50 hover:bg-emerald-800/70 text-emerald-100 border border-emerald-600/40 px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition">
+                    <svg class="w-4 h-4 text-ltYellow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                    <span>Word Bank</span>
+                    <span id="navWordCountBadge" class="bg-ltYellow text-forestDark px-1.5 py-0.2 rounded-md text-xs font-extrabold">520+</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-10 flex flex-col justify-center">
+
+        <!-- ==================== SCREEN 1: START / CONFIG SCREEN ==================== -->
+        <section id="startScreen" class="space-y-6 animate-pop">
+            <!-- Hero Banner -->
+            <div class="bg-gradient-to-br from-forestCard via-forestCard to-emerald-950/90 border border-forestBorder rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-12 -top-12 w-48 h-48 bg-ltYellow/10 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div class="space-y-2 max-w-xl">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-ltYellow/15 border border-ltYellow/30 text-ltYellow text-xs font-bold tracking-wide uppercase">
+                            <span>🇱🇹</span> Master Lithuanian Step-by-Step
+                        </div>
+                        <h2 class="font-display text-2xl sm:text-4xl font-extrabold text-white leading-tight">
+                            From Single Words to Full 5-Word Sentences
+                        </h2>
+                        <p class="text-emerald-100/75 text-sm sm:text-base leading-relaxed">
+                            Choose how many words you want in each challenge. Start with <strong class="text-white">1-word</strong> core vocabulary and scale up to <strong class="text-white">5-word</strong> everyday Lithuanian sentences with native audio pronunciation.
+                        </p>
+                    </div>
+
+                    <!-- Database Counter Card -->
+                    <div class="bg-forestDark/80 border border-forestBorder rounded-2xl p-4 sm:p-5 text-center shrink-0 flex flex-col items-center justify-center min-w-[180px]">
+                        <span class="text-xs uppercase tracking-wider text-emerald-300/70 font-semibold">Vocabulary Bank</span>
+                        <div id="totalVocabCounter" class="font-display text-3xl sm:text-4xl font-extrabold text-ltYellow my-1">540</div>
+                        <span class="text-xs text-emerald-200/70">Unique Common Words</span>
+                        <button onclick="openDictionaryModal()" class="mt-3 text-xs font-semibold text-amber-300 hover:text-amber-200 underline flex items-center gap-1">
+                            Browse all words &rarr;
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configuration Panel -->
+            <div class="bg-forestCard border border-forestBorder rounded-3xl p-6 sm:p-8 shadow-xl space-y-7">
+                
+                <!-- 1. Words Per Question Selector (1 to 5) -->
+                <div class="space-y-3">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                        <label class="font-display font-bold text-lg text-white flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-ltYellow text-forestDark text-xs font-extrabold flex items-center justify-center">1</span>
+                            Words per Question (Difficulty & Length)
+                        </label>
+                        <span id="wordCountDescBadge" class="text-xs font-semibold text-amber-300 bg-amber-500/10 border border-amber-500/20 px-3 py-1 rounded-full">
+                            1 Word • Individual Core Vocabulary
+                        </span>
+                    </div>
+
+                    <!-- 1 to 5 Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-1">
+                        <button type="button" onclick="selectWordLength(1)" id="lenBtn-1" class="word-len-btn word-pill-active rounded-2xl p-3.5 text-left sm:text-center border border-forestBorder transition flex sm:flex-col items-center justify-between sm:justify-center gap-2">
+                            <div class="font-display font-extrabold text-xl sm:text-2xl">1 Word</div>
+                            <div class="text-xs opacity-85 font-medium">Basic Words</div>
+                            <div class="text-[11px] opacity-75 italic hidden sm:block mt-1">"namas"</div>
+                        </button>
+
+                        <button type="button" onclick="selectWordLength(2)" id="lenBtn-2" class="word-len-btn bg-forestDark/70 hover:bg-forestDark text-emerald-100 rounded-2xl p-3.5 text-left sm:text-center border border-forestBorder transition flex sm:flex-col items-center justify-between sm:justify-center gap-2">
+                            <div class="font-display font-extrabold text-xl sm:text-2xl">2 Words</div>
+                            <div class="text-xs opacity-85 font-medium">Word Pairs</div>
+                            <div class="text-[11px] opacity-75 italic hidden sm:block mt-1">"geras draugas"</div>
+                        </button>
+
+                        <button type="button" onclick="selectWordLength(3)" id="lenBtn-3" class="word-len-btn bg-forestDark/70 hover:bg-forestDark text-emerald-100 rounded-2xl p-3.5 text-left sm:text-center border border-forestBorder transition flex sm:flex-col items-center justify-between sm:justify-center gap-2">
+                            <div class="font-display font-extrabold text-xl sm:text-2xl">3 Words</div>
+                            <div class="text-xs opacity-85 font-medium">Short Phrases</div>
+                            <div class="text-[11px] opacity-75 italic hidden sm:block mt-1">"aš geriu kavą"</div>
+                        </button>
+
+                        <button type="button" onclick="selectWordLength(4)" id="lenBtn-4" class="word-len-btn bg-forestDark/70 hover:bg-forestDark text-emerald-100 rounded-2xl p-3.5 text-left sm:text-center border border-forestBorder transition flex sm:flex-col items-center justify-between sm:justify-center gap-2">
+                            <div class="font-display font-extrabold text-xl sm:text-2xl">4 Words</div>
+                            <div class="text-xs opacity-85 font-medium">Mini Sentences</div>
+                            <div class="text-[11px] opacity-75 italic hidden sm:block mt-1">"mano brolis skaito knygą"</div>
+                        </button>
+
+                        <button type="button" onclick="selectWordLength(5)" id="lenBtn-5" class="word-len-btn bg-forestDark/70 hover:bg-forestDark text-emerald-100 rounded-2xl p-3.5 text-left sm:text-center border border-forestBorder transition flex sm:flex-col items-center justify-between sm:justify-center gap-2">
+                            <div class="font-display font-extrabold text-xl sm:text-2xl">5 Words</div>
+                            <div class="text-xs opacity-85 font-medium">Full Sentences</div>
+                            <div class="text-[11px] opacity-75 italic hidden sm:block mt-1">"šiandien yra labai graži diena"</div>
+                        </button>
+                    </div>
+
+                    <!-- Live Example Preview Box -->
+                    <div class="bg-forestDark/90 border border-forestBorder/90 rounded-2xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs sm:text-sm">
+                        <div class="flex items-center gap-2.5">
+                            <span class="px-2 py-0.5 rounded bg-emerald-900/80 text-emerald-300 font-semibold text-xs">Preview</span>
+                            <span id="previewExampleLT" class="font-bold text-white">namas</span>
+                            <span class="text-emerald-400">&rarr;</span>
+                            <span id="previewExampleEN" class="text-amber-300 font-medium">house</span>
+                        </div>
+                        <button type="button" onclick="speakPreview()" class="self-start sm:self-auto text-xs text-emerald-300 hover:text-ltYellow flex items-center gap-1 font-medium">
+                            🔊 Test Lithuanian Audio
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2. Category Filter (Applies to 1-Word Mode or General Focus) -->
+                <div id="categorySelectorBlock" class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <label class="font-display font-bold text-base sm:text-lg text-white flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-ltYellow text-forestDark text-xs font-extrabold flex items-center justify-center">2</span>
+                            Vocabulary Topic <span id="catModeHint" class="text-xs font-normal text-emerald-300/70">(Filter for 1-Word mode)</span>
+                        </label>
+                    </div>
+                    <div id="categoryPillsContainer" class="flex flex-wrap gap-2">
+                        <!-- Dynamically populated category buttons -->
+                    </div>
+                </div>
+
+                <!-- 3. Translation Direction & Round Length -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2 border-t border-forestBorder/60">
+                    <!-- Direction -->
+                    <div class="space-y-2.5">
+                        <label class="font-display font-bold text-base text-white flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-ltYellow text-forestDark text-xs font-extrabold flex items-center justify-center">3</span>
+                            Translation Direction
+                        </label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button type="button" onclick="selectDirection('lt-en')" id="dirBtn-lt-en" class="dir-btn bg-emerald-800/60 border-2 border-ltYellow text-white rounded-xl py-2.5 px-3 text-xs sm:text-sm font-semibold transition">
+                                🇱🇹 LT &rarr; 🇬🇧 EN
+                            </button>
+                            <button type="button" onclick="selectDirection('en-lt')" id="dirBtn-en-lt" class="dir-btn bg-forestDark/70 border border-forestBorder text-emerald-200/80 hover:text-white rounded-xl py-2.5 px-3 text-xs sm:text-sm font-semibold transition">
+                                🇬🇧 EN &rarr; 🇱🇹 LT
+                            </button>
+                            <button type="button" onclick="selectDirection('mixed')" id="dirBtn-mixed" class="dir-btn bg-forestDark/70 border border-forestBorder text-emerald-200/80 hover:text-white rounded-xl py-2.5 px-3 text-xs sm:text-sm font-semibold transition">
+                                🔀 Mixed
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Number of Questions -->
+                    <div class="space-y-2.5">
+                        <label class="font-display font-bold text-base text-white flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-ltYellow text-forestDark text-xs font-extrabold flex items-center justify-center">4</span>
+                            Round Length
+                        </label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button type="button" onclick="selectRoundLength(10)" id="roundBtn-10" class="round-btn bg-forestDark/70 border border-forestBorder text-emerald-200/80 hover:text-white rounded-xl py-2.5 px-3 text-xs sm:text-sm font-semibold transition">
+                                10 Questions
+                            </button>
+                            <button type="button" onclick="selectRoundLength(20)" id="roundBtn-20" class="round-btn bg-emerald-800/60 border-2 border-ltYellow text-white rounded-xl py-2.5 px-3 text-xs sm:text-sm font-semibold transition">
+                                20 Questions
+                            </button>
+                            <button type="button" onclick="selectRoundLength(0)" id="roundBtn-0" class="round-btn bg-forestDark/70 border border-forestBorder text-emerald-200/80 hover:text-white rounded-xl py-2.5 px-3 text-xs sm:text-sm font-semibold transition">
+                                ∞ Endless
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Start Button -->
+                <div class="pt-2">
+                    <button type="button" onclick="startGame()" class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-ltYellow via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-forestDark font-display font-extrabold text-lg sm:text-xl shadow-xl shadow-amber-500/20 hover:shadow-amber-500/30 transform hover:-translate-y-0.5 transition flex items-center justify-center gap-3">
+                        <span>Pradėti Žaidimą • Start Learning</span>
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SCREEN 2: GAMEPLAY SCREEN ==================== -->
+        <section id="gameScreen" class="hidden space-y-6 animate-pop">
+            <!-- Top Game Bar -->
+            <div class="flex items-center justify-between gap-4 bg-forestCard border border-forestBorder rounded-2xl p-4">
+                <button onclick="quitToMenu()" class="text-xs sm:text-sm text-emerald-300/80 hover:text-white flex items-center gap-1.5 font-medium px-2.5 py-1.5 rounded-lg hover:bg-forestDark transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                    <span>Menu</span>
+                </button>
+
+                <!-- Progress Bar -->
+                <div class="flex-1 max-w-md flex flex-col gap-1.5">
+                    <div class="flex justify-between text-xs font-semibold">
+                        <span id="questionProgressText" class="text-emerald-200">Question 1 / 20</span>
+                        <span id="activeModeBadge" class="text-ltYellow">1 Word Mode</span>
+                    </div>
+                    <div class="w-full h-2.5 bg-forestDark rounded-full overflow-hidden border border-forestBorder">
+                        <div id="progressBarFill" class="h-full bg-gradient-to-r from-ltGreen via-emerald-400 to-ltYellow transition-all duration-300" style="width: 5%"></div>
+                    </div>
+                </div>
+
+                <!-- Live Score & Streak -->
+                <div class="flex items-center gap-3">
+                    <div class="text-right">
+                        <div class="text-[11px] uppercase text-emerald-300/60 font-semibold">Streak</div>
+                        <div id="liveStreak" class="font-display font-bold text-sm sm:text-base text-amber-400">🔥 0</div>
+                    </div>
+                    <div class="h-7 w-px bg-forestBorder"></div>
+                    <div class="text-right">
+                        <div class="text-[11px] uppercase text-emerald-300/60 font-semibold">Score</div>
+                        <div id="liveScore" class="font-display font-bold text-sm sm:text-base text-white">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="bg-forestCard border border-forestBorder rounded-3xl p-6 sm:p-10 shadow-2xl text-center space-y-6 relative">
+                <!-- Category / Word Count Pill -->
+                <div class="flex items-center justify-between">
+                    <span id="questionCategoryBadge" class="px-3 py-1 rounded-full bg-emerald-950 border border-emerald-700/50 text-emerald-300 text-xs font-semibold">
+                        Category
+                    </span>
+                    <span id="questionDirectionBadge" class="text-xs font-semibold text-emerald-200/70">
+                        Translate to English
+                    </span>
+                </div>
+
+                <!-- Prompt Text & Speak Button -->
+                <div class="py-4 space-y-4">
+                    <div class="flex items-center justify-center gap-3 flex-wrap">
+                        <h3 id="questionPromptText" class="font-display font-extrabold text-2xl sm:text-4xl md:text-5xl text-white tracking-tight leading-snug">
+                            Labas rytas
+                        </h3>
+                        <button id="speakPromptBtn" onclick="speakCurrentLithuanian()" class="w-11 h-11 rounded-2xl bg-ltYellow/15 hover:bg-ltYellow/30 border border-ltYellow/40 text-ltYellow flex items-center justify-center transition shadow-md" title="Listen to Lithuanian pronunciation">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+                        </button>
+                    </div>
+                    <p id="wordBreakdownHint" class="text-xs sm:text-sm text-emerald-300/70 italic min-h-[1.25rem]"></p>
+                </div>
+
+                <!-- 4 Multiple Choice Options Grid -->
+                <div id="optionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4 text-left pt-2">
+                    <!-- 4 buttons injected via JS -->
+                </div>
+
+                <!-- Feedback & Next Button Bar -->
+                <div id="feedbackBanner" class="hidden pt-4 border-t border-forestBorder flex flex-col sm:flex-row items-center justify-between gap-4 animate-pop">
+                    <div class="flex items-center gap-3 text-left">
+                        <div id="feedbackIcon" class="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0">✓</div>
+                        <div>
+                            <div id="feedbackTitle" class="font-display font-bold text-base text-white">Puiku! Correct!</div>
+                            <div id="feedbackSubtitle" class="text-xs sm:text-sm text-emerald-200/80"></div>
+                        </div>
+                    </div>
+                    <button id="nextQuestionBtn" onclick="nextQuestion()" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-ltYellow hover:bg-amber-400 text-forestDark font-display font-extrabold text-sm sm:text-base shadow-lg transition flex items-center justify-center gap-2">
+                        <span>Next Question</span>
+                        <span class="text-xs opacity-75 font-sans">(Enter)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Keyboard shortcut tip -->
+            <div class="text-center text-xs text-emerald-300/50">
+                Tip: Press keys <kbd class="px-1.5 py-0.5 bg-forestCard border border-forestBorder rounded text-emerald-200">1</kbd> - <kbd class="px-1.5 py-0.5 bg-forestCard border border-forestBorder rounded text-emerald-200">4</kbd> to select an answer, <kbd class="px-1.5 py-0.5 bg-forestCard border border-forestBorder rounded text-emerald-200">R</kbd> for audio, and <kbd class="px-1.5 py-0.5 bg-forestCard border border-forestBorder rounded text-emerald-200">Enter</kbd> to continue.
+            </div>
+        </section>
+
+        <!-- ==================== SCREEN 3: SUMMARY / RESULTS SCREEN ==================== -->
+        <section id="summaryScreen" class="hidden space-y-6 animate-pop">
+            <div class="bg-forestCard border border-forestBorder rounded-3xl p-6 sm:p-10 shadow-2xl text-center space-y-6">
+                <div class="w-20 h-20 rounded-3xl bg-ltYellow/20 border-2 border-ltYellow text-ltYellow mx-auto flex items-center justify-center text-4xl shadow-lg">
+                    🏆
+                </div>
+                <div class="space-y-2">
+                    <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-white">Šaunuolis! Round Complete!</h2>
+                    <p id="summarySubtext" class="text-emerald-200/80 text-sm sm:text-base">Great job practicing Lithuanian!</p>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5 max-w-2xl mx-auto pt-2">
+                    <div class="bg-forestDark/80 border border-forestBorder rounded-2xl p-4">
+                        <div class="text-xs text-emerald-300/70 uppercase font-semibold">Accuracy</div>
+                        <div id="sumAccuracy" class="font-display font-extrabold text-2xl sm:text-3xl text-ltYellow mt-1">95%</div>
+                    </div>
+                    <div class="bg-forestDark/80 border border-forestBorder rounded-2xl p-4">
+                        <div class="text-xs text-emerald-300/70 uppercase font-semibold">Correct</div>
+                        <div id="sumCorrect" class="font-display font-extrabold text-2xl sm:text-3xl text-emerald-400 mt-1">19/20</div>
+                    </div>
+                    <div class="bg-forestDark/80 border border-forestBorder rounded-2xl p-4">
+                        <div class="text-xs text-emerald-300/70 uppercase font-semibold">Best Streak</div>
+                        <div id="sumStreak" class="font-display font-extrabold text-2xl sm:text-3xl text-amber-400 mt-1">🔥 12</div>
+                    </div>
+                    <div class="bg-forestDark/80 border border-forestBorder rounded-2xl p-4">
+                        <div class="text-xs text-emerald-300/70 uppercase font-semibold">XP Earned</div>
+                        <div id="sumXP" class="font-display font-extrabold text-2xl sm:text-3xl text-white mt-1">+240</div>
+                    </div>
+                </div>
+
+                <!-- Review Missed Items -->
+                <div id="missedWordsSection" class="hidden text-left max-w-2xl mx-auto bg-forestDark/70 border border-forestBorder rounded-2xl p-5 space-y-3">
+                    <h3 class="font-display font-bold text-sm uppercase tracking-wider text-rose-300">Items to Review:</h3>
+                    <div id="missedWordsList" class="space-y-2 max-h-60 overflow-y-auto pr-2"></div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
+                    <button onclick="startGame()" class="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-ltYellow hover:bg-amber-400 text-forestDark font-display font-extrabold text-base shadow-lg transition">
+                        Play Again (Same Settings)
+                    </button>
+                    <button onclick="showScreen('startScreen')" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-forestDark hover:bg-emerald-950 text-emerald-100 border border-forestBorder font-display font-bold text-base transition">
+                        Change Word Count / Settings
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==================== MODAL: 500+ WORD BANK DICTIONARY ==================== -->
+    <div id="dictionaryModal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-forestCard border border-forestBorder rounded-3xl max-w-4xl w-full max-h-[88vh] flex flex-col shadow-2xl overflow-hidden animate-pop">
+            <!-- Modal Header -->
+            <div class="p-5 sm:p-6 border-b border-forestBorder flex items-center justify-between gap-4 bg-forestDark/60">
+                <div>
+                    <h2 class="font-display font-extrabold text-xl sm:text-2xl text-white flex items-center gap-2">
+                        <span>📚</span> Lithuanian Vocabulary Bank
+                        <span id="modalTotalWordsCount" class="text-xs px-2.5 py-1 rounded-full bg-ltYellow text-forestDark font-extrabold">540 Words</span>
+                    </h2>
+                    <p class="text-xs sm:text-sm text-emerald-200/70 mt-0.5">Search in Lithuanian or English, filter by category, or click any word to hear it pronounced.</p>
+                </div>
+                <button onclick="closeDictionaryModal()" class="w-9 h-9 rounded-xl bg-forestCard border border-forestBorder text-emerald-200 hover:text-white flex items-center justify-center">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Search & Category Filter Bar -->
+            <div class="p-4 border-b border-forestBorder bg-forestDark/30 flex flex-col sm:flex-row gap-3">
+                <div class="relative flex-1">
+                    <input id="dictSearchInput" type="text" oninput="renderDictionaryList()" placeholder="Search Lithuanian or English word (e.g. 'vanduo', 'water', 'draugas')..." class="w-full bg-forestDark border border-forestBorder focus:border-ltYellow rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-emerald-300/40 focus:outline-none">
+                    <svg class="w-4 h-4 text-emerald-400 absolute left-3.5 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                </div>
+                <select id="dictCategorySelect" onchange="renderDictionaryList()" class="bg-forestDark border border-forestBorder focus:border-ltYellow rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none">
+                    <option value="ALL">All Categories</option>
+                </select>
+            </div>
+
+            <!-- Word Grid List -->
+            <div id="dictionaryGrid" class="p-4 sm:p-6 overflow-y-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 flex-1">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-4 text-center text-xs text-emerald-300/50 border-t border-forestBorder/40">
+        Gintaras Lithuanian Trainer • 500+ Core Words & Dynamic 1-to-5 Word Sentence Engine
+    </footer>
+
+    <!-- ==================== APPLICATION LOGIC & 500+ WORD DATABASE ==================== -->
+    <script>
+        /***********************************************************************
+         * 1. COMPREHENSIVE 540+ COMMON LITHUANIAN WORDS DATABASE
+         * Categorized cleanly for browsing & 1-word mode, plus used in 2-5 word
+         * phrases and sentences.
+         ***********************************************************************/
+        const RAW_VOCAB_BY_CATEGORY = {
+            "Pronouns & People": [
+                ["aš", "I"], ["tu", "you (singular)"], ["jis", "he"], ["ji", "she"], ["mes", "we"],
+                ["jūs", "you (plural/formal)"], ["jie", "they (masc.)"], ["jos", "they (fem.)"], ["mano", "my"], ["tavo", "your"],
+                ["mūsų", "our"], ["jūsų", "your (plural)"], ["šis", "this"], ["tas", "that"], ["kas", "who / what"],
+                ["kažkas", "someone"], ["niekas", "nobody / nothing"], ["visi", "everyone / all"], ["žmogus", "person"], ["žmonės", "people"],
+                ["vyras", "man / husband"], ["moteris", "woman / wife"], ["vaikas", "child"], ["bernukas", "boy"], ["mergaitė", "girl"],
+                ["šeima", "family"], ["tėvas", "father"], ["mama", "mother"], ["brolis", "brother"], ["sesuo", "sister"],
+                ["sūnus", "son"], ["dukra", "daughter"], ["senelis", "grandfather"], ["močiutė", "grandmother"], ["draugas", "friend (male)"],
+                ["draugė", "friend (female)"], ["kaimynas", "neighbor"], ["svečias", "guest"], ["mokytojas", "teacher"], ["mokinys", "student / pupil"],
+                ["gydytojas", "doctor"], ["darbuotojas", "worker"], ["vadovas", "manager / leader"], ["klientas", "client"], ["vairuotojas", "driver"],
+                ["pardavėjas", "seller / clerk"], ["policininkas", "police officer"], ["rašytojas", "writer"], ["menininkas", "artist"], ["kūdikis", "baby"]
+            ],
+            "Common Verbs": [
+                ["būti", "to be"], ["turėti", "to have"], ["daryti", "to do / make"], ["eiti", "to go / walk"], ["ateiti", "to come"],
+                ["važiuoti", "to drive / go by vehicle"], ["bėgti", "to run"], ["kalbėti", "to speak"], ["sakyti", "to say"], ["matyti", "to see"],
+                ["žiūrėti", "to look / watch"], ["girdėti", "to hear"], ["klausyti", "to listen"], ["žinoti", "to know (a fact)"], ["suprasti", "to understand"],
+                ["galvoti", "to think"], ["norėti", "to want"], ["galėti", "to be able / can"], ["reikėti", "to need"], ["mėgti", "to like"],
+                ["mylėti", "to love"], ["valgyti", "to eat"], ["gerti", "to drink"], ["miegoti", "to sleep"], ["gyventi", "to live"],
+                ["dirbti", "to work"], ["mokytis", "to study / learn"], ["skaityti", "to read"], ["rašyti", "to write"], ["pirkti", "to buy"],
+                ["parduoti", "to sell"], ["mokėti", "to pay / know how"], ["duoti", "to give"], ["imti", "to take"], ["gauti", "to receive / get"],
+                ["rasti", "to find"], ["ieškoti", "to look for"], ["laukti", "to wait"], ["padėti", "to help"], ["pradėti", "to start / begin"],
+                ["baigti", "to finish"], ["atidaryti", "to open"], ["uždaryti", "to close"], ["žaisti", "to play"], ["dainuoti", "to sing"],
+                ["šokti", "to dance / jump"], ["gaminti", "to cook / produce"], ["plauti", "to wash"], ["valyti", "to clean"], ["keliauti", "to travel"],
+                ["skristi", "to fly"], ["plaukti", "to swim / sail"], ["sėdėti", "to sit"], ["stovėti", "to stand"], ["gulėti", "to lie down"],
+                ["keltis", "to get up"], ["grįžti", "to return"], ["klausti", "to ask"], ["atsakyti", "to answer"], ["rodyti", "to show"],
+                ["bandyti", "to try"], ["pamiršti", "to forget"], ["prisiminti", "to remember"], ["tikėti", "to believe"], ["bijoti", "to fear / be afraid"],
+                ["juoktis", "to laugh"], ["šypsotis", "to smile"], ["verkti", "to cry"], ["augti", "to grow"], ["keisti", "to change"]
+            ],
+            "Adjectives & Colors": [
+                ["geras", "good"], ["blogas", "bad"], ["didelis", "big / large"], ["mažas", "small / little"], ["naujas", "new"],
+                ["senas", "old"], ["jaunas", "young"], ["gražus", "beautiful / nice"], ["įdomus", "interesting"], ["svarbus", "important"],
+                ["lengvas", "easy / light"], ["sunkus", "hard / heavy"], ["greitas", "fast"], ["lėtas", "slow"], ["šiltas", "warm"],
+                ["šaltas", "cold"], ["karštas", "hot"], ["švarus", "clean"], ["nešvarus", "dirty"], ["pilnas", "full"],
+                ["tuščias", "empty"], ["brangus", "expensive / dear"], ["pigus", "cheap"], ["aukštas", "tall / high"], ["žemas", "short / low"],
+                ["ilgas", "long"], ["trumpas", "short (length)"], ["platus", "wide"], ["siauras", "narrow"], ["stiprus", "strong"],
+                ["silpnas", "weak"], ["laimingas", "happy"], ["liūdnas", "sad"], ["pavargęs", "tired"], ["alkanas", "hungry"],
+                ["ištroškęs", "thirsty"], ["sveikas", "healthy"], ["sergantis", "sick"], ["turtingas", "rich"], ["vargšas", "poor"],
+                ["protingas", "smart / clever"], ["malonus", "pleasant / kind"], ["ramus", "calm / quiet"], ["garsus", "loud / famous"], ["aiškus", "clear"],
+                ["tikras", "real / true"], ["kitas", "other / another"], ["paskutinis", "last"], ["pirmas", "first"], ["baltas", "white"],
+                ["juodas", "black"], ["raudonas", "red"], ["žalias", "green"], ["geltonas", "yellow"], ["mėlynas", "blue"],
+                ["rudas", "brown"], ["pilkas", "gray"], ["oranžinis", "orange (color)"], ["rožinis", "pink"], ["auksinis", "golden"]
+            ],
+            "Food & Drink": [
+                ["maistas", "food"], ["vanduo", "water"], ["duona", "bread"], ["pienas", "milk"], ["kava", "coffee"],
+                ["arbata", "tea"], ["sūris", "cheese"], ["sviestas", "butter"], ["mėsa", "meat"], ["vištiena", "chicken"],
+                ["kiauliena", "pork"], ["jautiena", "beef"], ["žuvis", "fish"], ["kiaušinis", "egg"], ["ryžiai", "rice"],
+                ["bulvė", "potato"], ["sriuba", "soup"], ["salotos", "salad"], ["košė", "porridge"], ["makaronai", "pasta"],
+                ["obuolys", "apple"], ["bananas", "banana"], ["citrina", "lemon"], ["apelsinas", "orange (fruit)"], ["braškė", "strawberry"],
+                ["uoga", "berry"], ["vaisius", "fruit"], ["daržovė", "vegetable"], ["pomidoras", "tomato"], ["agurkas", "cucumber"],
+                ["morka", "carrot"], ["svogūnas", "onion"], ["česnakas", "garlic"], ["kopūstas", "cabbage"], ["grybas", "mushroom"],
+                ["cukrus", "sugar"], ["druska", "salt"], ["pipirai", "pepper"], ["medus", "honey"], ["tortas", "cake"],
+                ["pyragas", "pie / pastry"], ["ledai", "ice cream"], ["šokoladas", "chocolate"], ["sausainis", "cookie"], ["sultys", "juice"],
+                ["alus", "beer"], ["vynas", "wine"], ["pusryčiai", "breakfast"], ["pietūs", "lunch"], ["vakarienė", "dinner"]
+            ],
+            "Home, City & Places": [
+                ["namas", "house"], ["namai", "home"], ["butas", "apartment"], ["kambarys", "room"], ["virtuvė", "kitchen"],
+                ["vonios", "bathroom"], ["miegamasis", "bedroom"], ["durys", "door"], ["langas", "window"], ["siena", "wall"],
+                ["grindys", "floor"], ["stogas", "roof"], ["stalas", "table"], ["kėdė", "chair"], ["lova", "bed"],
+                ["sofa", "sofa"], ["spinta", "wardrobe / closet"], ["veidrodis", "mirror"], ["lempa", "lamp"], ["raktas", "key"],
+                ["miestas", "city"], ["kaimas", "village"], ["gatvė", "street"], ["kelias", "road / way"], ["aikštė", "square / plaza"],
+                ["parkas", "park"], ["tiltas", "bridge"], ["parduotuvė", "shop / store"], ["turgus", "market"], ["mokykla", "school"],
+                ["universitetas", "university"], ["biblioteka", "library"], ["ligoninė", "hospital"], ["vaistinė", "pharmacy"], ["bankas", "bank"],
+                ["paštas", "post office"], ["restoranas", "restaurant"], ["kavinė", "café"], ["viešbutis", "hotel"], ["muziejus", "museum"],
+                ["teatras", "theater"], ["kinas", "cinema"], ["bažnyčia", "church"], ["stotis", "station"], ["oro uostas", "airport"],
+                ["biuras", "office"], ["gamykla", "factory"], ["sodas", "garden / orchard"], ["kiemas", "yard / courtyard"], ["šalis", "country"]
+            ],
+            "Nature, Animals & Weather": [
+                ["gamta", "nature"], ["oras", "weather / air"], ["saulė", "sun"], ["mėnulis", "moon"], ["žvaigždė", "star"],
+                ["dangus", "sky"], ["debesis", "cloud"], ["lietus", "rain"], ["sniegas", "snow"], ["vėjas", "wind"],
+                ["audra", "storm"], ["rūkas", "fog"], ["ledas", "ice"], ["ugnis", "fire"], ["žemė", "earth / ground"],
+                ["miškas", "forest"], ["medis", "tree"], ["gėlė", "flower"], ["žolė", "grass"], ["lapas", "leaf"],
+                ["upė", "river"], ["ežeras", "lake"], ["jūra", "sea"], ["vandenynas", "ocean"], ["paplūdimys", "beach"],
+                ["kalnas", "mountain"], ["sala", "island"], ["akmuo", "stone"], ["smėlis", "sand"], ["gintaras", "amber"],
+                ["gyvūnas", "animal"], ["šuo", "dog"], ["katė", "cat"], ["arklys", "horse"], ["karvė", "cow"],
+                ["avis", "sheep"], ["kiaulė", "pig"], ["paukštis", "bird"], ["antis", "duck"], ["žąsis", "goose"],
+                ["višta", "hen"], ["vilkas", "wolf"], ["lapė", "fox"], ["lokys", "bear"], ["kiškis", "hare / rabbit"],
+                ["pelė", "mouse"], ["bitė", "bee"], ["drugelis", "butterfly"], ["voras", "spider"], ["gyvatė", "snake"]
+            ],
+            "Time, Days & Numbers": [
+                ["laikas", "time"], ["diena", "day"], ["rytas", "morning"], ["popietė", "afternoon"], ["vakaras", "evening"],
+                ["naktis", "night"], ["šiandien", "today"], ["vakar", "yesterday"], ["rytoj", "tomorrow"], ["dabar", "now"],
+                ["vėliau", "later"], ["anksti", "early"], ["vėlai", "late"], ["visada", "always"], ["dažnai", "often"],
+                ["kartais", "sometimes"], ["retai", "rarely"], ["niekada", "never"], ["jau", "already"], ["dar", "still / yet"],
+                ["savaitė", "week"], ["mėnuo", "month"], ["metai", "year"], ["valanda", "hour"], ["minutė", "minute"],
+                ["sekundė", "second"], ["pirmadienis", "Monday"], ["antradienis", "Tuesday"], ["trečiadienis", "Wednesday"], ["ketvirtadienis", "Thursday"],
+                ["penktadienis", "Friday"], ["šeštadienis", "Saturday"], ["sekmadienis", "Sunday"], ["pavasaris", "spring"], ["vasara", "summer"],
+                ["ruduo", "autumn"], ["žiema", "winter"], ["nulis", "zero"], ["vienas", "one"], ["du", "two"],
+                ["trys", "three"], ["keturi", "four"], ["penki", "five"], ["šeši", "six"], ["septyni", "seven"],
+                ["aštuoni", "eight"], ["devyni", "nine"], ["dešimt", "ten"], ["dvidešimt", "twenty"], ["šimtas", "hundred"]
+            ],
+            "Everyday Objects & Body": [
+                ["daiktas", "thing / object"], ["knyga", "book"], ["laikraštis", "newspaper"], ["žurnalas", "magazine"], ["laiškas", "letter"],
+                ["popierius", "paper"], ["rašiklis", "pen"], ["pieštukas", "pencil"], ["sąsiuvinis", "notebook"], ["telefonas", "phone"],
+                ["kompiuteris", "computer"], ["televizorius", "television"], ["radijas", "radio"], ["fotoaparatas", "camera"], ["laikrodis", "clock / watch"],
+                ["krepšys", "bag"], ["kuprinė", "backpack"], ["piniginė", "wallet"], ["pinigai", "money"], ["kortelė", "card"],
+                ["bilietas", "ticket"], ["automobilis", "car"], ["autobusas", "bus"], ["traukinys", "train"], ["lėktuvas", "airplane"],
+                ["dviratis", "bicycle"], ["laivas", "ship"], ["drabužiai", "clothes"], ["marškiniai", "shirt"], ["kelnės", "pants / trousers"],
+                ["suknelė", "dress"], ["striukė", "jacket"], ["paltas", "coat"], ["batai", "shoes"], ["kepurė", "hat / cap"],
+                ["akiniai", "glasses"], ["skėtis", "umbrella"], ["muilas", "soap"], ["rankšluostis", "towel"], ["dantų šepetėlis", "toothbrush"],
+                ["lėkštė", "plate"], ["puodelis", "cup / mug"], ["stiklinė", "glass"], ["šakutė", "fork"], ["peilis", "knife"],
+                ["šaukštas", "spoon"], ["butelis", "bottle"], ["kūnas", "body"], ["galva", "head"], ["veidas", "face"],
+                ["akis", "eye"], ["ausis", "ear"], ["nosis", "nose"], ["burna", "mouth"], ["dantis", "tooth"],
+                ["ranka", "hand / arm"], ["koja", "leg / foot"], ["širdis", "heart"], ["nugara", "back"], ["plaukai", "hair"]
+            ],
+            "Adverbs, Greetings & Connectors": [
+                ["labas", "hello / hi"], ["sveiki", "hello (formal/plural)"], ["viso gero", "goodbye"], ["iki", "see you"], ["ačiū", "thank you"],
+                ["prašom", "please / you're welcome"], ["atsiprašau", "excuse me / sorry"], ["taip", "yes"], ["ne", "no"], ["galbūt", "maybe"],
+                ["žinoma", "of course"], ["gerai", "okay / well"], ["blogai", "badly"], ["labai", "very"], ["daug", "much / many"],
+                ["mažai", "little / few"], ["daugiau", "more"], ["mažiau", "less"], ["pakankamai", "enough"], ["per daug", "too much"],
+                ["čia", "here"], ["ten", "there"], ["kur", "where"], ["kada", "when"], ["kodėl", "why"],
+                ["kaip", "how"], ["kiek", "how much / how many"], ["ir", "and"], ["arba", "or"], ["bet", "but"],
+                ["nes", "because"], ["jei", "if"], ["kai", "when (conjunction)"], ["kad", "that (conjunction)"], ["su", "with"],
+                ["be", "without"], ["į", "into / to"], ["iš", "from / out of"], ["ant", "on"], ["po", "under / after"],
+                ["prie", "by / near"], ["už", "behind / for"], ["tarp", "between"], ["apie", "about"], ["prieš", "before / against"],
+                ["kartu", "together"], ["atskirai", "separately"], ["greitai", "quickly"], ["lėtai", "slowly"], ["tyliai", "quietly"],
+                ["garsiai", "loudly"], ["arti", "near / close"], ["toli", "far"], ["dešinėje", "on the right"], ["kairėje", "on the left"],
+                ["tiesiai", "straight ahead"], ["atgal", "back"], ["pirmyn", "forward"], ["tikrai", "really / truly"], ["beveik", "almost"]
+            ],
+            "Abstract & Daily Life Concepts": [
+                ["darbas", "work / job"], ["gyvenimas", "life"], ["pasaulis", "world"], ["kalba", "language"], ["žodis", "word"],
+                ["sakinys", "sentence"], ["klausimas", "question"], ["atsakymas", "answer"], ["vardas", "first name"], ["pavardė", "surname"],
+                ["istorija", "history / story"], ["muzika", "muzika / music"], ["filmas", "movie"], ["žaidimas", "game"], ["sportas", "sport"],
+                ["kelionė", "trip / journey"], ["atostogos", "vacation / holidays"], ["šventė", "holiday / celebration"], ["dovana", "gift / present"], ["kaina", "price"],
+                ["sąskaita", "bill / account"], ["problema", "problem"], ["idėja", "idea"], ["planas", "plan"], ["tikslas", "goal"],
+                ["tiesa", "truth"], ["taika", "peace"], ["laisvė", "freedom"], ["meilė", "love"], ["laimė", "happiness"],
+                ["džiaugsmas", "joy"], ["baimė", "fear"], ["viltis", "hope"], ["svajonė", "dream"], ["sveikata", "health"],
+                ["jėga", "strength / power"], ["balsas", "voice"], ["garsas", "sound"], ["šviesa", "light"], ["tamsa", "darkness"],
+                ["spalva", "color"], ["forma", "shape"], ["dydis", "size"], ["skaičius", "number"], ["pradžia", "beginning"],
+                ["pabaiga", "end"], ["dalis", "part"], ["vieta", "place"], ["pusė", "side / half"], ["centras", "center"]
+            ]
+        };
+
+        // Flatten vocabulary into a master array and deduplicate by Lithuanian key
+        const MASTER_VOCAB = [];
+        const seenLT = new Set();
+        Object.entries(RAW_VOCAB_BY_CATEGORY).forEach(([category, pairs]) => {
+            pairs.forEach(([lt, en]) => {
+                const norm = lt.trim().toLowerCase();
+                if (!seenLT.has(norm)) {
+                    seenLT.add(norm);
+                    MASTER_VOCAB.push({ lt: lt.trim(), en: en.trim(), category });
+                }
+            });
+        });
+
+        /***********************************************************************
+         * 2. MULTI-WORD PHRASE & SENTENCE GENERATOR (EXACT WORD COUNTS: 2, 3, 4, 5)
+         * Combines large curated banks with grammatical combinators so every
+         * single question has the exact number of Lithuanian words chosen (1..5).
+         ***********************************************************************/
+        function countWords(str) {
+            return str.trim().split(/\s+/).filter(Boolean).length;
+        }
+
+        // Curated & grammatically verified multi-word banks (also expanded dynamically below)
+        const PHRASE_BANKS = {
+            2: [
+                { lt: "labas rytas", en: "good morning", category: "Greetings" },
+                { lt: "labas vakaras", en: "good evening", category: "Greetings" },
+                { lt: "laba diena", en: "good day / hello", category: "Greetings" },
+                { lt: "labanakt visiems", en: "goodnight everyone", category: "Greetings" },
+                { lt: "viso gero", en: "goodbye / all the best", category: "Greetings" },
+                { lt: "iki pasimatymo", en: "see you later", category: "Greetings" },
+                { lt: "labai ačiū", en: "thank you very much", category: "Greetings" },
+                { lt: "geras draugas", en: "good friend", category: "People" },
+                { lt: "graži diena", en: "beautiful day", category: "Nature" },
+                { lt: "šiltas oras", en: "warm weather", category: "Nature" },
+                { lt: "šaltas vanduo", en: "cold water", category: "Food & Drink" },
+                { lt: "karšta kava", en: "hot coffee", category: "Food & Drink" },
+                { lt: "žalia arbata", en: "green tea", category: "Food & Drink" },
+                { lt: "šviežia duona", en: "fresh bread", category: "Food & Drink" },
+                { lt: "skanus maistas", en: "delicious food", category: "Food & Drink" },
+                { lt: "didelis namas", en: "big house", category: "Home & City" },
+                { lt: "mažas butas", en: "small apartment", category: "Home & City" },
+                { lt: "naujas automobilis", en: "new car", category: "Objects" },
+                { lt: "senas miestas", en: "old city", category: "Home & City" },
+                { lt: "įdomi knyga", en: "interesting book", category: "Objects" },
+                { lt: "svarbus darbas", en: "important work", category: "Daily Life" },
+                { lt: "mano šeima", en: "my family", category: "People" },
+                { lt: "tavo vardas", en: "your name", category: "Daily Life" },
+                { lt: "mūsų šalis", en: "our country", category: "Home & City" },
+                { lt: "aš einu", en: "I go", category: "Verbs & Actions" },
+                { lt: "tu kalbi", en: "you speak", category: "Verbs & Actions" },
+                { lt: "jis dirba", en: "he works", category: "Verbs & Actions" },
+                { lt: "ji skaito", en: "she reads", category: "Verbs & Actions" },
+                { lt: "mes gyvename", en: "we live", category: "Verbs & Actions" },
+                { lt: "jie valgo", en: "they eat", category: "Verbs & Actions" },
+                { lt: "aš suprantu", en: "I understand", category: "Verbs & Actions" },
+                { lt: "aš žinau", en: "I know", category: "Verbs & Actions" },
+                { lt: "tu matai", en: "you see", category: "Verbs & Actions" },
+                { lt: "jis miega", en: "he sleeps", category: "Verbs & Actions" },
+                { lt: "ji šypsosi", en: "she smiles", category: "Verbs & Actions" },
+                { lt: "mes keliaujame", en: "we travel", category: "Verbs & Actions" },
+                { lt: "baltas sniegas", en: "white snow", category: "Nature" },
+                { lt: "žalias miškas", en: "green forest", category: "Nature" },
+                { lt: "mėlyna jūra", en: "blue sea", category: "Nature" },
+                { lt: "geltona saulė", en: "yellow sun", category: "Nature" },
+                { lt: "juoda katė", en: "black cat", category: "Nature" },
+                { lt: "ištikimas šuo", en: "loyal dog", category: "Nature" },
+                { lt: "raudonas obuolys", en: "red apple", category: "Food & Drink" },
+                { lt: "saldus medus", en: "sweet honey", category: "Food & Drink" },
+                { lt: "švarus kambarys", en: "clean room", category: "Home & City" },
+                { lt: "aukštas medis", en: "tall tree", category: "Nature" },
+                { lt: "plati gatvė", en: "wide street", category: "Home & City" },
+                { lt: "ramus vakaras", en: "calm evening", category: "Time" },
+                { lt: "ankstyvas rytas", en: "early morning", category: "Time" },
+                { lt: "gera idėja", en: "good idea", category: "Daily Life" }
+            ],
+            3: [
+                { lt: "aš geriu kavą", en: "I drink coffee", category: "Food & Drink" },
+                { lt: "tu geri vandenį", en: "you drink water", category: "Food & Drink" },
+                { lt: "jis valgo duoną", en: "he eats bread", category: "Food & Drink" },
+                { lt: "ji valgo obuolį", en: "she eats an apple", category: "Food & Drink" },
+                { lt: "mes geriame arbatą", en: "we drink tea", category: "Food & Drink" },
+                { lt: "aš skaitau knygą", en: "I read a book", category: "Daily Life" },
+                { lt: "tu rašai laišką", en: "you write a letter", category: "Daily Life" },
+                { lt: "jis perka automobilį", en: "he buys a car", category: "Objects" },
+                { lt: "ji gamina vakarienę", en: "she cooks dinner", category: "Food & Drink" },
+                { lt: "mes mokomės lietuviškai", en: "we learn Lithuanian", category: "Daily Life" },
+                { lt: "aš myliu tave", en: "I love you", category: "People" },
+                { lt: "aš turiu klausimą", en: "I have a question", category: "Daily Life" },
+                { lt: "tu turi laiko", en: "you have time", category: "Time" },
+                { lt: "jis turi šunį", en: "he has a dog", category: "Nature" },
+                { lt: "ji turi katę", en: "she has a cat", category: "Nature" },
+                { lt: "mes turime namą", en: "we have a house", category: "Home & City" },
+                { lt: "aš einu namo", en: "I am going home", category: "Home & City" },
+                { lt: "jis eina miegoti", en: "he goes to sleep", category: "Daily Life" },
+                { lt: "ji dirba ligoninėje", en: "she works in a hospital", category: "People" },
+                { lt: "mes gyvename mieste", en: "we live in the city", category: "Home & City" },
+                { lt: "jie gyvena kaime", en: "they live in the village", category: "Home & City" },
+                { lt: "oras yra gražus", en: "the weather is beautiful", category: "Nature" },
+                { lt: "vanduo yra šaltas", en: "the water is cold", category: "Food & Drink" },
+                { lt: "kava yra karšta", en: "the coffee is hot", category: "Food & Drink" },
+                { lt: "knyga yra įdomi", en: "the book is interesting", category: "Objects" },
+                { lt: "miestas yra senas", en: "the city is old", category: "Home & City" },
+                { lt: "mano brolis dirba", en: "my brother works", category: "People" },
+                { lt: "mano sesuo dainuoja", en: "my sister sings", category: "People" },
+                { lt: "mūsų draugas atvyksta", en: "our friend arrives", category: "People" },
+                { lt: "šuo bėga greitai", en: "the dog runs fast", category: "Nature" },
+                { lt: "katė miega ramiai", en: "the cat sleeps peacefully", category: "Nature" },
+                { lt: "saulė šviečia ryškiai", en: "the sun shines brightly", category: "Nature" },
+                { lt: "šiandien lyja lietus", en: "it is raining today", category: "Nature" },
+                { lt: "kur yra stotis", en: "where is the station", category: "Home & City" },
+                { lt: "kur yra viešbutis", en: "where is the hotel", category: "Home & City" },
+                { lt: "kiek tai kainuoja", en: "how much does it cost", category: "Daily Life" },
+                { lt: "aš noriu valgyti", en: "I want to eat", category: "Food & Drink" },
+                { lt: "aš noriu miegoti", en: "I want to sleep", category: "Daily Life" },
+                { lt: "mes mėgstame muziką", en: "we like music", category: "Daily Life" },
+                { lt: "jie žaidžia krepšinį", en: "they play basketball", category: "Daily Life" },
+                { lt: "vaikai žaidžia parke", en: "children play in the park", category: "People" },
+                { lt: "mokytojas kalba aiškiai", en: "the teacher speaks clearly", category: "People" },
+                { lt: "autobusas važiuoja lėtai", en: "the bus drives slowly", category: "Objects" },
+                { lt: "lėktuvas skrenda aukštai", en: "the airplane flies high", category: "Objects" },
+                { lt: "aš ieškau rakto", en: "I am looking for a key", category: "Objects" }
+            ],
+            4: [
+                { lt: "mano brolis skaito knygą", en: "my brother reads a book", category: "Daily Life" },
+                { lt: "mano sesuo geria arbatą", en: "my sister drinks tea", category: "Food & Drink" },
+                { lt: "aš labai mėgstu kavą", en: "I really like coffee", category: "Food & Drink" },
+                { lt: "mes gyvename dideliame mieste", en: "we live in a big city", category: "Home & City" },
+                { lt: "jie gyvena mažame kaime", en: "they live in a small village", category: "Home & City" },
+                { lt: "šiandien yra graži diena", en: "today is a beautiful day", category: "Nature" },
+                { lt: "rytoj bus šiltas oras", en: "tomorrow will be warm weather", category: "Nature" },
+                { lt: "aš noriu išmokti lietuviškai", en: "I want to learn Lithuanian", category: "Daily Life" },
+                { lt: "tu kalbi labai gerai", en: "you speak very well", category: "Daily Life" },
+                { lt: "jis dirba kiekvieną dieną", en: "he works every day", category: "Daily Life" },
+                { lt: "ji perka šviežią duoną", en: "she buys fresh bread", category: "Food & Drink" },
+                { lt: "mes einame į parką", en: "we are going to the park", category: "Home & City" },
+                { lt: "vaikai eina į mokyklą", en: "children go to school", category: "People" },
+                { lt: "mano draugas turi automobilį", en: "my friend has a car", category: "Objects" },
+                { lt: "šis restoranas yra geras", en: "this restaurant is good", category: "Food & Drink" },
+                { lt: "ši knyga yra įdomi", en: "this book is interesting", category: "Objects" },
+                { lt: "kur yra artimiausia parduotuvė", en: "where is the nearest shop", category: "Home & City" },
+                { lt: "aš ieškau savo telefono", en: "I am looking for my phone", category: "Objects" },
+                { lt: "mama gamina skanią sriubą", en: "mother cooks delicious soup", category: "Food & Drink" },
+                { lt: "tėvas skaito rytinį laikraštį", en: "father reads the morning newspaper", category: "Daily Life" },
+                { lt: "šuo miega ant grindų", en: "the dog sleeps on the floor", category: "Nature" },
+                { lt: "katė sėdi prie lango", en: "the cat sits by the window", category: "Nature" },
+                { lt: "knyga yra ant stalo", en: "the book is on the table", category: "Objects" },
+                { lt: "raktas yra mano krepšyje", en: "the key is in my bag", category: "Objects" },
+                { lt: "mes laukiame savo autobuso", en: "we are waiting for our bus", category: "Objects" },
+                { lt: "traukinys išvyksta labai anksti", en: "the train departs very early", category: "Time" },
+                { lt: "aš visada keliuosi anksti", en: "I always get up early", category: "Time" },
+                { lt: "vakare mes žiūrime filmą", en: "in the evening we watch a movie", category: "Daily Life" },
+                { lt: "jis klauso geros muzikos", en: "he listens to good music", category: "Daily Life" },
+                { lt: "ji rašo ilgą laišką", en: "she writes a long letter", category: "Daily Life" },
+                { lt: "gydytojas padeda sergantiems žmonėms", en: "the doctor helps sick people", category: "People" },
+                { lt: "mokytojas aiškina naują pamoką", en: "the teacher explains a new lesson", category: "People" },
+                { lt: "parduotuvė atsidaro aštuntą valandą", en: "the shop opens at eight o'clock", category: "Time" },
+                { lt: "aš geriu vandenį kasdien", en: "I drink water every day", category: "Food & Drink" },
+                { lt: "vasarą saulė šviečia ilgai", en: "in summer the sun shines long", category: "Nature" },
+                { lt: "žiemą dažnai sninga sniegas", en: "in winter snow often falls", category: "Nature" },
+                { lt: "mūsų šeima mėgsta keliauti", en: "our family likes to travel", category: "People" },
+                { lt: "aš turiu du brolius", en: "I have two brothers", category: "People" },
+                { lt: "ji turi gražų sodą", en: "she has a beautiful garden", category: "Home & City" },
+                { lt: "mes perkame bilietus internetu", en: "we buy tickets online", category: "Objects" }
+            ],
+            5: [
+                { lt: "šiandien yra labai graži diena", en: "today is a very beautiful day", category: "Nature" },
+                { lt: "mano geras draugas gyvena Vilniuje", en: "my good friend lives in Vilnius", category: "Home & City" },
+                { lt: "aš kiekvieną rytą geriu kavą", en: "I drink coffee every morning", category: "Food & Drink" },
+                { lt: "mes labai mėgstame keliauti vasarą", en: "we really like to travel in summer", category: "Daily Life" },
+                { lt: "mano brolis skaito įdomią knygą", en: "my brother reads an interesting book", category: "Objects" },
+                { lt: "mano sesuo dirba didelėje ligoninėje", en: "my sister works in a big hospital", category: "People" },
+                { lt: "vaikai linksmai žaidžia miesto parke", en: "children happily play in the city park", category: "People" },
+                { lt: "šis naujas restoranas yra puikus", en: "this new restaurant is excellent", category: "Food & Drink" },
+                { lt: "aš noriu gerai kalbėti lietuviškai", en: "I want to speak Lithuanian well", category: "Daily Life" },
+                { lt: "mama virtuvėje gamina skanią vakarienę", en: "mother cooks delicious dinner in the kitchen", category: "Food & Drink" },
+                { lt: "mažas šuo greitai bėga kieme", en: "the small dog runs fast in the yard", category: "Nature" },
+                { lt: "juoda katė ramiai miega lovoje", en: "the black cat sleeps peacefully in bed", category: "Nature" },
+                { lt: "rytoj mes važiuosime prie jūros", en: "tomorrow we will drive to the sea", category: "Nature" },
+                { lt: "traukinys atvyksta į stotį laiku", en: "the train arrives at the station on time", category: "Time" },
+                { lt: "ant stalo yra šviežia duona", en: "there is fresh bread on the table", category: "Food & Drink" },
+                { lt: "aš visada perku šviežias daržoves", en: "I always buy fresh vegetables", category: "Food & Drink" },
+                { lt: "mūsų mokytojas kalba labai aiškiai", en: "our teacher speaks very clearly", category: "People" },
+                { lt: "vakare mes kartu žiūrime filmą", en: "in the evening we watch a movie together", category: "Daily Life" },
+                { lt: "šiame mieste yra daug parkų", en: "there are many parks in this city", category: "Home & City" },
+                { lt: "aš negaliu rasti savo raktų", en: "I cannot find my keys", category: "Objects" },
+                { lt: "jis dirba biure kiekvieną dieną", en: "he works in the office every day", category: "Daily Life" },
+                { lt: "ji labai gražiai dainuoja dainą", en: "she sings a song very beautifully", category: "Daily Life" },
+                { lt: "savaitgalį mes aplankysime savo senelius", en: "on the weekend we will visit our grandparents", category: "People" },
+                { lt: "šaltas vanduo yra ant stalo", en: "cold water is on the table", category: "Food & Drink" },
+                { lt: "biblioteka atsidaro devintą valandą ryte", en: "the library opens at nine o'clock in the morning", category: "Time" },
+                { lt: "mano tėvas vairuoja naują automobilį", en: "my father drives a new car", category: "Objects" },
+                { lt: "paukščiai gražiai gieda žaliame miške", en: "birds sing beautifully in the green forest", category: "Nature" },
+                { lt: "aš labai džiaugiuosi matydamas tave", en: "I am very happy seeing you", category: "Greetings" },
+                { lt: "prašau duoti man puodelį kavos", en: "please give me a cup of coffee", category: "Food & Drink" },
+                { lt: "lietuvių kalba yra labai graži", en: "the Lithuanian language is very beautiful", category: "Daily Life" },
+                { lt: "jie gyvena netoli miesto centro", en: "they live near the city center", category: "Home & City" },
+                { lt: "aš rašau laišką savo draugui", en: "I am writing a letter to my friend", category: "People" },
+                { lt: "šiąnakt danguje šviečia daug žvaigždžių", en: "tonight many stars shine in the sky", category: "Nature" },
+                { lt: "mes perkame šviežius vaisius turguje", en: "we buy fresh fruit at the market", category: "Food & Drink" },
+                { lt: "mano kompiuteris yra ant stalo", en: "my computer is on the table", category: "Objects" }
+            ]
+        };
+
+        // Programmatically expand 2, 3, 4, and 5 word banks using grammatically inflected templates
+        function buildDynamicPhrases() {
+            const adjMasculine = [
+                ["geras", "good"], ["naujas", "new"], ["senas", "old"], ["didelis", "big"], ["mažas", "small"]
+            ];
+            const nounMasculine = [
+                ["draugas", "friend"], ["namas", "house"], ["miestas", "city"], ["darbas", "job"], ["telefonas", "phone"], ["automobilis", "car"]
+            ];
+            // Add 2-word Adjective + Noun combinations
+            adjMasculine.forEach(([adjLT, adjEN]) => {
+                nounMasculine.forEach(([nLT, nEN]) => {
+                    const lt = `${adjLT} ${nLT}`;
+                    const en = `${adjEN} ${nEN}`;
+                    if (!PHRASE_BANKS[2].some(p => p.lt === lt)) {
+                        PHRASE_BANKS[2].push({ lt, en, category: "Word Pairs" });
+                    }
+                });
+            });
+
+            // Add 3-word Subject + Verb + Accusative Object combinations
+            const subjects3 = [
+                { lt: "aš matau", en: "I see" },
+                { lt: "tu matai", en: "you see" },
+                { lt: "mes matome", en: "we see" },
+                { lt: "aš turiu", en: "I have" },
+                { lt: "jis turi", en: "he has" }
+            ];
+            const objects3 = [
+                { lt: "namą", en: "a house" },
+                { lt: "knygą", en: "a book" },
+                { lt: "telefoną", en: "a phone" },
+                { lt: "bilietą", en: "a ticket" },
+                { lt: "raktą", en: "a key" },
+                { lt: "draugą", en: "a friend" }
+            ];
+            subjects3.forEach(s => {
+                objects3.forEach(o => {
+                    const lt = `${s.lt} ${o.lt}`;
+                    const en = `${s.en} ${o.en}`;
+                    if (countWords(lt) === 3 && !PHRASE_BANKS[3].some(p => p.lt === lt)) {
+                        PHRASE_BANKS[3].push({ lt, en, category: "Simple Clauses" });
+                    }
+                });
+            });
+
+            // Add 4-word Subject + Verb + Adjective + Object combinations
+            const subjects4 = [
+                { lt: "aš turiu", en: "I have" },
+                { lt: "tu turi", en: "you have" },
+                { lt: "jis perka", en: "he buys" },
+                { lt: "ji mato", en: "she sees" }
+            ];
+            const adjObj4 = [
+                { lt: "naują knygą", en: "a new book" },
+                { lt: "gerą draugą", en: "a good friend" },
+                { lt: "didelį namą", en: "a big house" },
+                { lt: "naują telefoną", en: "a new phone" },
+                { lt: "karštą kavą", en: "hot coffee" },
+                { lt: "šaltą vandenį", en: "cold water" }
+            ];
+            subjects4.forEach(s => {
+                adjObj4.forEach(ao => {
+                    const lt = `${s.lt} ${ao.lt}`;
+                    const en = `${s.en} ${ao.en}`;
+                    if (countWords(lt) === 4 && !PHRASE_BANKS[4].some(p => p.lt === lt)) {
+                        PHRASE_BANKS[4].push({ lt, en, category: "Short Sentences" });
+                    }
+                });
+            });
+
+            // Add 5-word Possessive + Noun + Verb + Adjective + Object combinations
+            const subj5 = [
+                { lt: "mano brolis turi", en: "my brother has" },
+                { lt: "mano sesuo perka", en: "my sister buys" },
+                { lt: "mūsų draugas mato", en: "our friend sees" },
+                { lt: "mano tėvas skaito", en: "my father reads" }
+            ];
+            const obj5 = [
+                { lt: "naują knygą", en: "a new book" },
+                { lt: "įdomų žurnalą", en: "an interesting magazine" },
+                { lt: "rytinį laikraštį", en: "the morning newspaper" },
+                { lt: "ilgą laišką", en: "a long letter" }
+            ];
+            subj5.forEach(s => {
+                obj5.forEach(o => {
+                    const lt = `${s.lt} ${o.lt}`;
+                    const en = `${s.en} ${o.en}`;
+                    if (countWords(lt) === 5 && !PHRASE_BANKS[5].some(p => p.lt === lt)) {
+                        PHRASE_BANKS[5].push({ lt, en, category: "Full Sentences" });
+                    }
+                });
+            });
+        }
+        buildDynamicPhrases();
+
+        /***********************************************************************
+         * 3. GAME STATE & CONFIGURATION
+         ***********************************************************************/
+        let config = {
+            wordLength: 1,          // 1, 2, 3, 4, or 5 words per question
+            category: "ALL",        // Category filter for 1-word mode
+            direction: "lt-en",     // 'lt-en', 'en-lt', or 'mixed'
+            roundLength: 20         // 10, 20, or 0 (Endless)
+        };
+
+        let gameState = {
+            questions: [],
+            currentIndex: 0,
+            score: 0,
+            streak: 0,
+            bestRoundStreak: 0,
+            correctCount: 0,
+            answered: false,
+            currentQuestion: null,
+            missedItems: []
+        };
+
+        // Persistent stats in localStorage
+        let userStats = {
+            totalXP: parseInt(localStorage.getItem("lt_total_xp") || "0", 10),
+            bestStreak: parseInt(localStorage.getItem("lt_best_streak") || "0", 10)
+        };
+
+        const WORD_LENGTH_META = {
+            1: {
+                badge: "1 Word • Individual Core Vocabulary",
+                exampleLT: "namas",
+                exampleEN: "house"
+            },
+            2: {
+                badge: "2 Words • Adjective + Noun / Pronoun + Verb Pairs",
+                exampleLT: "geras draugas",
+                exampleEN: "good friend"
+            },
+            3: {
+                badge: "3 Words • Simple Phrases & Short Clauses",
+                exampleLT: "aš geriu kavą",
+                exampleEN: "I drink coffee"
+            },
+            4: {
+                badge: "4 Words • Everyday Mini Sentences",
+                exampleLT: "mano brolis skaito knygą",
+                exampleEN: "my brother reads a book"
+            },
+            5: {
+                badge: "5 Words • Complete 5-Word Sentences",
+                exampleLT: "šiandien yra labai graži diena",
+                exampleEN: "today is a very beautiful day"
+            }
+        };
+
+        /***********************************************************************
+         * 4. INITIALIZATION & UI SETUP
+         ***********************************************************************/
+        function initApp() {
+            // Update counters with exact database size
+            const totalWords = MASTER_VOCAB.length;
+            document.getElementById("totalVocabCounter").textContent = totalWords;
+            document.getElementById("navWordCountBadge").textContent = `${totalWords} Words`;
+            document.getElementById("modalTotalWordsCount").textContent = `${totalWords} Words`;
+
+            updateHeaderStats();
+            renderCategoryPills();
+            populateDictionaryCategories();
+            renderDictionaryList();
+        }
+
+        function updateHeaderStats() {
+            document.getElementById("headerXP").textContent = userStats.totalXP;
+            document.getElementById("headerStreak").textContent = userStats.bestStreak;
+        }
+
+        function renderCategoryPills() {
+            const container = document.getElementById("categoryPillsContainer");
+            const categories = ["ALL", ...Object.keys(RAW_VOCAB_BY_CATEGORY)];
+            container.innerHTML = "";
+
+            categories.forEach(cat => {
+                const count = cat === "ALL" ? MASTER_VOCAB.length : MASTER_VOCAB.filter(w => w.category === cat).length;
+                const isSelected = config.category === cat;
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.onclick = () => selectCategory(cat);
+                btn.className = `px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition border ${
+                    isSelected
+                        ? "bg-emerald-800/80 border-ltYellow text-white shadow-sm"
+                        : "bg-forestDark/70 border-forestBorder text-emerald-200/75 hover:text-white"
+                }`;
+                btn.innerHTML = `${cat === "ALL" ? "🌟 All Categories" : cat} <span class="opacity-60 text-xs ml-1">(${count})</span>`;
+                container.appendChild(btn);
+            });
+        }
+
+        function selectWordLength(len) {
+            config.wordLength = len;
+            for (let i = 1; i <= 5; i++) {
+                const btn = document.getElementById(`lenBtn-${i}`);
+                if (i === len) {
+                    btn.className = "word-len-btn word-pill-active rounded-2xl p-3.5 text-left sm:text-center border border-ltYellow transition flex sm:flex-col items-center justify-between sm:justify-center gap-2";
+                } else {
+                    btn.className = "word-len-btn bg-forestDark/70 hover:bg-forestDark text-emerald-100 rounded-2xl p-3.5 text-left sm:text-center border border-forestBorder transition flex sm:flex-col items-center justify-between sm:justify-center gap-2";
+                }
+            }
+            const meta = WORD_LENGTH_META[len];
+            document.getElementById("wordCountDescBadge").textContent = meta.badge;
+            document.getElementById("previewExampleLT").textContent = meta.exampleLT;
+            document.getElementById("previewExampleEN").textContent = meta.exampleEN;
+
+            // Show/dim category filter depending on 1-word vs multi-word mode
+            const catBlock = document.getElementById("categorySelectorBlock");
+            const catHint = document.getElementById("catModeHint");
+            if (len === 1) {
+                catBlock.classList.remove("opacity-50", "pointer-events-none");
+                catHint.textContent = "(Filter for 1-Word mode)";
+            } else {
+                catBlock.classList.add("opacity-50", "pointer-events-none");
+                catHint.textContent = `(All topics combined in ${len}-Word sentence mode)`;
+            }
+        }
+
+        function selectCategory(cat) {
+            config.category = cat;
+            renderCategoryPills();
+        }
+
+        function selectDirection(dir) {
+            config.direction = dir;
+            ["lt-en", "en-lt", "mixed"].forEach(d => {
+                const btn = document.getElementById(`dirBtn-${d}`);
+                if (d === dir) {
+                    btn.className = "dir-btn bg-emerald-800/60 border-2 border-ltYellow text-white rounded-xl py-2.5 px-3 text-xs sm:text-sm font-semibold transition";
+                } else {
+                    btn.className = "dir-btn bg-forestDark/70 border border-forestBorder text-emerald-200/80 hover:text-white rounded-xl py-2.5 px-3 text-xs sm:text-sm font-semibold transition";
+                }
+            });
+        }
+
+        function selectRoundLength(num) {
+            config.roundLength = num;
+            [10, 20, 0].forEach(n => {
+                const btn = document.getElementById(`roundBtn-${n}`);
+                if (n === num) {
+                    btn.className = "round-btn bg-emerald-800/60 border-2 border-ltYellow text-white rounded-xl py-2.5 px-3 text-xs sm:text-sm font-semibold transition";
+                } else {
+                    btn.className = "round-btn bg-forestDark/70 border border-forestBorder text-emerald-200/80 hover:text-white rounded-xl py-2.5 px-3 text-xs sm:text-sm font-semibold transition";
+                }
+            });
+        }
+
+        /***********************************************************************
+         * 5. QUESTION & DISTRACTOR ENGINE
+         ***********************************************************************/
+        function shuffleArray(arr) {
+            const copy = [...arr];
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
+
+        function getPoolForCurrentConfig() {
+            if (config.wordLength === 1) {
+                let pool = config.category === "ALL"
+                    ? MASTER_VOCAB
+                    : MASTER_VOCAB.filter(item => item.category === config.category);
+                // Prefer single-token Lithuanian words for strict 1-word mode
+                const strictSingle = pool.filter(item => countWords(item.lt) === 1);
+                return strictSingle.length >= 20 ? strictSingle : pool;
+            } else {
+                return PHRASE_BANKS[config.wordLength] || PHRASE_BANKS[2];
+            }
+        }
+
+        function generateQuestionItem(targetItem, fullPool) {
+            // Decide direction for this question
+            const dir = config.direction === "mixed"
+                ? (Math.random() < 0.5 ? "lt-en" : "en-lt")
+                : config.direction;
+
+            // Pick 3 plausible distractors from the same complexity pool
+            const sameCategoryPool = fullPool.filter(
+                p => p.lt !== targetItem.lt && p.en !== targetItem.en && p.category === targetItem.category
+            );
+            const otherPool = fullPool.filter(
+                p => p.lt !== targetItem.lt && p.en !== targetItem.en && p.category !== targetItem.category
+            );
+
+            const candidateDistractors = [...shuffleArray(sameCategoryPool), ...shuffleArray(otherPool)];
+            const distractors = [];
+            const usedAnswers = new Set([dir === "lt-en" ? targetItem.en.toLowerCase() : targetItem.lt.toLowerCase()]);
+
+            for (const cand of candidateDistractors) {
+                const ansText = dir === "lt-en" ? cand.en : cand.lt;
+                if (!usedAnswers.has(ansText.toLowerCase())) {
+                    usedAnswers.add(ansText.toLowerCase());
+                    distractors.push(cand);
+                    if (distractors.length === 3) break;
+                }
+            }
+
+            const options = shuffleArray([
+                { text: dir === "lt-en" ? targetItem.en : targetItem.lt, isCorrect: true, item: targetItem },
+                ...distractors.map(d => ({ text: dir === "lt-en" ? d.en : d.lt, isCorrect: false, item: d }))
+            ]);
+
+            return {
+                target: targetItem,
+                direction: dir,
+                prompt: dir === "lt-en" ? targetItem.lt : targetItem.en,
+                correctAnswer: dir === "lt-en" ? targetItem.en : targetItem.lt,
+                options
+            };
+        }
+
+        /***********************************************************************
+         * 6. GAMEPLAY FLOW
+         ***********************************************************************/
+        function startGame() {
+            const pool = getPoolForCurrentConfig();
+            const shuffledPool = shuffleArray(pool);
+
+            const totalQ = config.roundLength === 0 ? 50 : config.roundLength;
+            const selectedTargets = [];
+            for (let i = 0; i < totalQ; i++) {
+                selectedTargets.push(shuffledPool[i % shuffledPool.length]);
+            }
+
+            gameState = {
+                pool,
+                questions: selectedTargets.map(t => generateQuestionItem(t, pool)),
+                currentIndex: 0,
+                score: 0,
+                streak: 0,
+                bestRoundStreak: 0,
+                correctCount: 0,
+                answered: false,
+                currentQuestion: null,
+                missedItems: []
+            };
+
+            showScreen("gameScreen");
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            // If in Endless mode and near the end of pre-generated batch, append more
+            if (config.roundLength === 0 && gameState.currentIndex >= gameState.questions.length - 2) {
+                const more = shuffleArray(gameState.pool).slice(0, 20).map(t => generateQuestionItem(t, gameState.pool));
+                gameState.questions.push(...more);
+            }
+
+            if (config.roundLength !== 0 && gameState.currentIndex >= config.roundLength) {
+                finishRound();
+                return;
+            }
+
+            gameState.answered = false;
+            const q = gameState.questions[gameState.currentIndex];
+            gameState.currentQuestion = q;
+
+            // Update Top Bar
+            const qNum = gameState.currentIndex + 1;
+            if (config.roundLength === 0) {
+                document.getElementById("questionProgressText").textContent = `Question ${qNum} (Endless Mode)`;
+                document.getElementById("progressBarFill").style.width = "100%";
+            } else {
+                document.getElementById("questionProgressText").textContent = `Question ${qNum} / ${config.roundLength}`;
+                const pct = Math.max(5, Math.round(((qNum - 1) / config.roundLength) * 100));
+                document.getElementById("progressBarFill").style.width = `${pct}%`;
+            }
+
+            document.getElementById("activeModeBadge").textContent =
+                `${config.wordLength} ${config.wordLength === 1 ? "Word" : "Words"} per Question`;
+            document.getElementById("liveStreak").textContent = `🔥 ${gameState.streak}`;
+            document.getElementById("liveScore").textContent = gameState.score;
+
+            // Update Badges & Prompt
+            document.getElementById("questionCategoryBadge").textContent = q.target.category;
+            document.getElementById("questionDirectionBadge").textContent =
+                q.direction === "lt-en" ? "🇱🇹 Lithuanian → 🇬🇧 English" : "🇬🇧 English → 🇱🇹 Lithuanian";
+
+            document.getElementById("questionPromptText").textContent = q.prompt;
+
+            // Show word count hint
+            const wordCountHint = document.getElementById("wordBreakdownHint");
+            if (config.wordLength > 1) {
+                wordCountHint.textContent = `${config.wordLength}-word Lithuanian sentence challenge`;
+            } else {
+                wordCountHint.textContent = "Select the matching translation below";
+            }
+
+            // Render 4 Option Buttons
+            const optionsContainer = document.getElementById("optionsContainer");
+            optionsContainer.innerHTML = "";
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.id = `optBtn-${idx}`;
+                btn.onclick = () => handleAnswer(idx);
+                btn.className = "option-btn bg-forestDark/90 hover:bg-forestDark border-2 border-forestBorder rounded-2xl p-4 sm:p-5 flex items-center justify-between gap-3 text-left group";
+                btn.innerHTML = `
+                    <div class="flex items-center gap-3.5">
+                        <span class="w-8 h-8 rounded-xl bg-forestCard border border-forestBorder group-hover:border-ltYellow text-emerald-300 group-hover:text-ltYellow font-display font-bold text-sm flex items-center justify-center shrink-0 transition">
+                            ${idx + 1}
+                        </span>
+                        <span class="font-semibold text-base sm:text-lg text-white leading-snug">${opt.text}</span>
+                    </div>
+                    <span class="status-indicator text-lg shrink-0"></span>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+
+            // Hide feedback bar
+            document.getElementById("feedbackBanner").classList.add("hidden");
+
+            // Auto-speak Lithuanian prompt if direction is LT -> EN
+            if (q.direction === "lt-en") {
+                speakLithuanianText(q.target.lt, true);
+            }
+        }
+
+        function handleAnswer(selectedIndex) {
+            if (gameState.answered) return;
+            gameState.answered = true;
+
+            const q = gameState.currentQuestion;
+            const chosen = q.options[selectedIndex];
+            const isCorrect = chosen.isCorrect;
+
+            // Style all option buttons
+            q.options.forEach((opt, idx) => {
+                const btn = document.getElementById(`optBtn-${idx}`);
+                btn.disabled = true;
+                const indicator = btn.querySelector(".status-indicator");
+
+                if (opt.isCorrect) {
+                    btn.classList.add("option-correct");
+                    indicator.textContent = "✓";
+                } else if (idx === selectedIndex && !isCorrect) {
+                    btn.classList.add("option-wrong");
+                    indicator.textContent = "✕";
+                } else {
+                    btn.classList.add("opacity-50");
+                }
+            });
+
+            const feedbackBanner = document.getElementById("feedbackBanner");
+            const feedbackIcon = document.getElementById("feedbackIcon");
+            const feedbackTitle = document.getElementById("feedbackTitle");
+            const feedbackSubtitle = document.getElementById("feedbackSubtitle");
+
+            if (isCorrect) {
+                gameState.streak++;
+                gameState.correctCount++;
+                if (gameState.streak > gameState.bestRoundStreak) {
+                    gameState.bestRoundStreak = gameState.streak;
+                }
+                if (gameState.streak > userStats.bestStreak) {
+                    userStats.bestStreak = gameState.streak;
+                    localStorage.setItem("lt_best_streak", String(userStats.bestStreak));
+                }
+
+                const earnedXP = 10 * config.wordLength + Math.min(gameState.streak * 2, 20);
+                gameState.score += earnedXP;
+                userStats.totalXP += earnedXP;
+                localStorage.setItem("lt_total_xp", String(userStats.totalXP));
+
+                feedbackIcon.className = "w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500 text-emerald-300 flex items-center justify-center text-xl shrink-0";
+                feedbackIcon.textContent = "✓";
+                feedbackTitle.textContent = `Puiku! Correct! (+${earnedXP} XP)`;
+                feedbackTitle.className = "font-display font-bold text-base text-emerald-300";
+                feedbackSubtitle.textContent = `${q.target.lt} = "${q.target.en}"`;
+            } else {
+                gameState.streak = 0;
+                gameState.missedItems.push(q.target);
+
+                feedbackIcon.className = "w-10 h-10 rounded-xl bg-rose-500/20 border border-rose-500 text-rose-300 flex items-center justify-center text-xl shrink-0";
+                feedbackIcon.textContent = "✕";
+                feedbackTitle.textContent = "Neteisingai • Not quite!";
+                feedbackTitle.className = "font-display font-bold text-base text-rose-300";
+                feedbackSubtitle.textContent = `Correct answer: ${q.target.lt} — "${q.target.en}"`;
+            }
+
+            // If question was EN -> LT, pronounce the Lithuanian answer on reveal
+            if (q.direction === "en-lt") {
+                speakLithuanianText(q.target.lt, true);
+            }
+
+            updateHeaderStats();
+            document.getElementById("liveStreak").textContent = `🔥 ${gameState.streak}`;
+            document.getElementById("liveScore").textContent = gameState.score;
+
+            feedbackBanner.classList.remove("hidden");
+        }
+
+        function nextQuestion() {
+            if (!gameState.answered) return;
+            gameState.currentIndex++;
+            loadQuestion();
+        }
+
+        function quitToMenu() {
+            if (gameState.currentIndex > 0 && config.roundLength === 0) {
+                finishRound();
+            } else {
+                showScreen("startScreen");
+            }
+        }
+
+        function finishRound() {
+            document.getElementById("progressBarFill").style.width = "100%";
+            const totalAnswered = Math.max(1, gameState.currentIndex);
+            const accuracy = Math.round((gameState.correctCount / totalAnswered) * 100);
+
+            document.getElementById("sumAccuracy").textContent = `${accuracy}%`;
+            document.getElementById("sumCorrect").textContent = `${gameState.correctCount}/${totalAnswered}`;
+            document.getElementById("sumStreak").textContent = `🔥 ${gameState.bestRoundStreak}`;
+            document.getElementById("sumXP").textContent = `+${gameState.score}`;
+
+            const missedSection = document.getElementById("missedWordsSection");
+            const missedList = document.getElementById("missedWordsList");
+
+            if (gameState.missedItems.length > 0) {
+                missedSection.classList.remove("hidden");
+                missedList.innerHTML = "";
+                gameState.missedItems.forEach(item => {
+                    const row = document.createElement("div");
+                    row.className = "flex items-center justify-between bg-forestCard border border-forestBorder rounded-xl px-3.5 py-2.5 text-xs sm:text-sm";
+                    row.innerHTML = `
+                        <div>
+                            <span class="font-bold text-white">${item.lt}</span>
+                            <span class="text-emerald-400 mx-2">&rarr;</span>
+                            <span class="text-amber-300">${item.en}</span>
+                        </div>
+                        <button onclick="speakLithuanianText('${item.lt.replace(/'/g, "\\'")}')" class="text-emerald-300 hover:text-ltYellow px-2 py-1">
+                            🔊
+                        </button>
+                    `;
+                    missedList.appendChild(row);
+                });
+            } else {
+                missedSection.classList.add("hidden");
+            }
+
+            showScreen("summaryScreen");
+        }
+
+        function showScreen(screenId) {
+            ["startScreen", "gameScreen", "summaryScreen"].forEach(id => {
+                document.getElementById(id).classList.toggle("hidden", id !== screenId);
+            });
+        }
+
+        /***********************************************************************
+         * 7. LITHUANIAN AUDIO PRONUNCIATION (WEB SPEECH API)
+         ***********************************************************************/
+        function speakLithuanianText(text, quietFallback = false) {
+            if (!("speechSynthesis" in window)) return;
+            try {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = "lt-LT";
+                utterance.rate = 0.92;
+
+                const voices = window.speechSynthesis.getVoices();
+                const ltVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith("lt"));
+                if (ltVoice) {
+                    utterance.voice = ltVoice;
+                }
+                window.speechSynthesis.speak(utterance);
+            } catch (e) {
+                // Ignore speech synthesis errors on restricted browsers
+            }
+        }
+
+        function speakCurrentLithuanian() {
+            if (!gameState.currentQuestion) return;
+            speakLithuanianText(gameState.currentQuestion.target.lt);
+        }
+
+        function speakPreview() {
+            const text = document.getElementById("previewExampleLT").textContent;
+            speakLithuanianText(text);
+        }
+
+        /***********************************************************************
+         * 8. SEARCHABLE 500+ WORD DICTIONARY MODAL
+         ***********************************************************************/
+        function populateDictionaryCategories() {
+            const select = document.getElementById("dictCategorySelect");
+            Object.keys(RAW_VOCAB_BY_CATEGORY).forEach(cat => {
+                const opt = document.createElement("option");
+                opt.value = cat;
+                opt.textContent = cat;
+                select.appendChild(opt);
+            });
+        }
+
+        function openDictionaryModal() {
+            document.getElementById("dictionaryModal").classList.remove("hidden");
+            renderDictionaryList();
+        }
+
+        function closeDictionaryModal() {
+            document.getElementById("dictionaryModal").classList.add("hidden");
+        }
+
+        function renderDictionaryList() {
+            const query = (document.getElementById("dictSearchInput").value || "").trim().toLowerCase();
+            const cat = document.getElementById("dictCategorySelect").value;
+            const grid = document.getElementById("dictionaryGrid");
+
+            const filtered = MASTER_VOCAB.filter(item => {
+                const matchesCat = cat === "ALL" || item.category === cat;
+                const matchesQuery = !query ||
+                    item.lt.toLowerCase().includes(query) ||
+                    item.en.toLowerCase().includes(query);
+                return matchesCat && matchesQuery;
+            });
+
+            grid.innerHTML = "";
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-10 text-emerald-300/60">No words found matching "${query}".</div>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const card = document.createElement("div");
+                card.onclick = () => speakLithuanianText(item.lt);
+                card.className = "bg-forestDark/80 hover:bg-forestDark border border-forestBorder hover:border-ltYellow/60 rounded-xl p-3 flex items-center justify-between gap-2 cursor-pointer transition group";
+                card.innerHTML = `
+                    <div class="min-w-0">
+                        <div class="font-bold text-white text-sm group-hover:text-ltYellow transition truncate">${item.lt}</div>
+                        <div class="text-xs text-emerald-200/75 truncate">${item.en}</div>
+                        <div class="text-[10px] text-emerald-400/50 mt-0.5 truncate">${item.category}</div>
+                    </div>
+                    <span class="text-emerald-400/60 group-hover:text-ltYellow text-sm shrink-0" title="Listen">🔊</span>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        /***********************************************************************
+         * 9. KEYBOARD SHORTCUTS (1-4 for options, Enter/Space for Next, R for audio)
+         ***********************************************************************/
+        window.addEventListener("keydown", (e) => {
+            // Ignore shortcuts if typing in the dictionary search input
+            if (document.activeElement && document.activeElement.tagName === "INPUT") return;
+
+            const isGameVisible = !document.getElementById("gameScreen").classList.contains("hidden");
+            if (!isGameVisible) return;
+
+            if (["1", "2", "3", "4"].includes(e.key) && !gameState.answered) {
+                e.preventDefault();
+                handleAnswer(parseInt(e.key, 10) - 1);
+            } else if ((e.key === "Enter" || e.key === " ") && gameState.answered) {
+                e.preventDefault();
+                nextQuestion();
+            } else if (e.key.toLowerCase() === "r") {
+                e.preventDefault();
+                speakCurrentLithuanian();
+            }
+        });
+
+        window.onload = initApp;
+    </script>
+</body>
+</html>
+```
